@@ -170,17 +170,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Name..." borderStyle="roundedRect" placeholder="   Name..." minimumFontSize="37" translatesAutoresizingMaskIntoConstraints="NO" id="Pde-gj-JpZ">
-                                <rect key="frame" x="16" y="120" width="81.666666666666671" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   Name..." minimumFontSize="37" translatesAutoresizingMaskIntoConstraints="NO" id="Pde-gj-JpZ">
+                                <rect key="frame" x="16" y="120" width="110" height="35"/>
                                 <color key="backgroundColor" red="0.19922071699999999" green="0.24502590299999999" blue="0.28810954090000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="wgJ-PV-Unk"/>
+                                </constraints>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" name="Galvji" family="Galvji" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0Ff-cW-4Um"/>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.24313725490196078" blue="0.28627450980392155" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.19922071699999999" green="0.24502590299999999" blue="0.28810954090000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0Ff-cW-4Um" firstAttribute="trailing" secondItem="Pde-gj-JpZ" secondAttribute="trailing" constant="267" id="bGW-Lw-T7q"/>
+                            <constraint firstItem="Pde-gj-JpZ" firstAttribute="top" secondItem="0Ff-cW-4Um" secondAttribute="top" constant="17" id="eHa-jx-wJ8"/>
+                            <constraint firstItem="Pde-gj-JpZ" firstAttribute="leading" secondItem="0Ff-cW-4Um" secondAttribute="leading" constant="16" id="jOd-Hs-ems"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xDw-oP-ADr">
                         <barButtonItem key="leftBarButtonItem" image="Vector 1" id="XIb-26-VWa">

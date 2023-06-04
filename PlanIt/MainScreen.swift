@@ -12,9 +12,11 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableViewLabel: UITableView!
     
-    var tasks = ["go to store",
-                 "plan for the next day",
-                 "important facts"]
+    var model = [Model]()
+    
+//    var tasks = ["go to store",
+//                 "plan for the next day",
+//                 "important facts"]
 
    
     
@@ -27,25 +29,26 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return model.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.label.text = tasks[indexPath.row]
+        cell.label.text = model[indexPath.row].text
         return cell
     }
     
     
+    @IBAction func unwindSegue(segue: UIStoryboardSegue){
+        guard let notesVC = segue.source as? NotesViewController else {return}
+        notesVC.saveText()
+        model.append(notesVC.model!)
+        tableViewLabel.reloadData()
+    }
     
-    /*
+   
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+   
+   
 }

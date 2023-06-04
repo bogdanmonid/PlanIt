@@ -9,7 +9,7 @@ import UIKit
 
 class NotesViewController: UIViewController {
     
-    var shadowLayer: CALayer?
+    var model: Model!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var textFieldLabel: UITextField!
@@ -17,63 +17,52 @@ class NotesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        changeTextField()
+        saveButton.isEnabled = true
+        textFieldLabel.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let size = textFieldLabel.frame.size
-        let layer: CALayer = CALayer()
-        
-        textFieldLabel.layer.backgroundColor = UIColor.lightGray.cgColor
-        textFieldLabel.layer.position = CGPointMake(size.width, size.height)
-        textFieldLabel.layer.bounds = CGRectMake(0, 0, size.width, size.height)
-        textFieldLabel.layer.shadowColor = UIColor.darkGray.cgColor
-        textFieldLabel.layer.shadowOffset = CGSizeMake(0.5, 0.5)
-        textFieldLabel.layer.shadowOpacity = 0.8
-        textFieldLabel.layer.shadowRadius = 5
-      //  self.shadowLayer = layer
-        self.shadowLayer?.addSublayer(layer)
-        
+        textFieldLabel.layer.cornerRadius = 17
+        addInnerShadow()
         
     }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
     }
     
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true)
     }
     
+    func saveText(){
+        model = Model(text: textFieldLabel.text!)
+    }
     
-    //    private func addShadowToTextField(){
-    //        if nil == self.shadowLayer{
-    //            let size = textFieldLabel.frame.size
-    //            self.textFieldLabel.clipsToBounds = true
-    //            let layer: CALayer = CALayer()
-    //            layer.backgroundColor = UIColor.lightGray.cgColor
-    //            layer.position = CGPointMake(size.width / 2,  -size.height / 2 + 0.5)
-    //            layer.bounds = CGRectMake(0, 0, size.width, size.height)
-    //            layer.shadowColor = UIColor.darkGray.cgColor
-    //            layer.shadowOffset = CGSizeMake(0.5, 0.5)
-    //            layer.shadowOpacity = 0.8
-    //            layer.shadowRadius = 5
-    //            self.shadowLayer = layer
-    //
-    //        }
-    //    }
+    private func addInnerShadow(){
+        
+        let textFieldLayer = textFieldLabel.layer
+        
+        // textFieldLayer.backgroundColor = UIColor.black.cgColor
+        textFieldLayer.cornerRadius = textFieldLabel.frame.height / 2
+        textFieldLayer.shadowColor = UIColor.black.cgColor
+        textFieldLayer.shadowOffset = CGSize(width: 3, height: 3)
+        textFieldLayer.shadowOpacity = 0.5
+        textFieldLayer.shadowRadius = 1
+        textFieldLayer.masksToBounds = false
+        
+    }
 }
 
-private extension NotesViewController{
+extension NotesViewController: UITextFieldDelegate{
     
-    func changeTextField(){
-        
-        textFieldLabel.layer.masksToBounds = true
-        textFieldLabel.layer.cornerRadius = 17
-        
-        
+    @objc func saveEnabling(){
+        if textFieldLabel.text?.isEmpty == false{
+            saveButton.isEnabled = true
+        }else{
+            saveButton.isEnabled = false
+        }
     }
 }
