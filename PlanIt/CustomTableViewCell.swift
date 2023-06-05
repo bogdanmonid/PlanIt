@@ -18,4 +18,16 @@ class CustomTableViewCell: UITableViewCell {
         }
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        checkMarkLabel.setImage(UIImage(named: "buttonImage"), for: .normal)
+        checkMarkLabel.setImage(UIImage(named: "checkMark"), for: .selected)
+    }
+    
+    @IBAction func checkAction(_ sender: UIButton) {
+        checkMarkLabel.isSelected = !checkMarkLabel.isSelected
+        //checkMarkLabel.showsTouchWhenHighlighted = false
+       
+    }
 }

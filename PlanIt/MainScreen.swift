@@ -9,14 +9,13 @@ import UIKit
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var model = [Model]()
     
     @IBOutlet weak var tableViewLabel: UITableView!
     
-    var model = [Model]()
-    
-//    var tasks = ["go to store",
-//                 "plan for the next day",
-//                 "important facts"]
+    var tasks = ["go to store",
+                 "plan for the next day",
+                 "important facts"]
 
    
     
@@ -29,12 +28,12 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.count
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.label.text = model[indexPath.row].text
+        cell.label.text = tasks[indexPath.row]
         return cell
     }
     
