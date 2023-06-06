@@ -7,15 +7,17 @@
 
 import UIKit
 
-class NotesViewController: UIViewController {
+class NotesViewController: UIViewController{
     
     var model: Model!
+    var placeholder: UILabel!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var textFieldLabel: UITextField!
     @IBOutlet weak var textViewLabel: UITextView!{
         didSet{
             textViewLabel.layer.cornerRadius = 13
+           
         }
     }
     
@@ -24,6 +26,17 @@ class NotesViewController: UIViewController {
        
         saveButton.isEnabled = true
         textFieldLabel.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
+        
+        textViewLabel.delegate = self
+        placeholder = UILabel()
+        placeholder.text = "Description"
+        placeholder.font = .italicSystemFont(ofSize: 20)
+        placeholder.alpha = 0.25
+        placeholder.sizeToFit()
+        textViewLabel.addSubview(placeholder)
+        placeholder.frame.origin = CGPoint(x: 5, y: (textViewLabel.font?.pointSize)! / 2)
+        placeholder.textColor = .systemGray5
+        placeholder.isHidden = !textViewLabel.text.isEmpty
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,5 +107,20 @@ extension UITextField{
             }
             self.layer.addSublayer(gradientLayer)
         }
+    }
+}
+
+extension NotesViewController: UITextViewDelegate{
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholder.isHidden = !textView.text.isEmpty
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        placeholder.isHidden = !textView.text.isEmpty
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeholder.isHidden = true
     }
 }
