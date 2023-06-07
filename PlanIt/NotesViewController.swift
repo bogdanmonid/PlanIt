@@ -7,16 +7,23 @@
 
 import UIKit
 
+protocol NotesViewControllerDelegate {
+    
+    func completedCreateTask(data: ModelTask)
+}
+
 class NotesViewController: UIViewController{
     
-    var model: Model!
+    var delegate: NotesViewControllerDelegate?
     var placeholder: UILabel!
     
+    
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var textFieldLabel: UITextField!
-    @IBOutlet weak var textViewLabel: UITextView!{
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!{
         didSet{
-            textViewLabel.layer.cornerRadius = 13
+            descriptionTextView.layer.cornerRadius = 13
             
         }
     }
@@ -24,47 +31,90 @@ class NotesViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        saveButton.isEnabled = true
-        textFieldLabel.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
+        saveButton.isEnabled = false
         
-        textViewLabel.delegate = self
-        placeholder = UILabel()
-        placeholder.text = "Description"
-        placeholder.font = .italicSystemFont(ofSize: 20)
-        placeholder.alpha = 0.25
-        placeholder.sizeToFit()
-        textViewLabel.addSubview(placeholder)
-        placeholder.frame.origin = CGPoint(x: 5, y: (textViewLabel.font?.pointSize)! / 2)
-        placeholder.textColor = .systemGray5
-        placeholder.isHidden = !textViewLabel.text.isEmpty
+        nameTextField.delegate = self
+        nameTextField.text = "    Name..."
+        nameTextField.textColor = UIColor.systemGray5
+        nameTextField.font = .italicSystemFont(ofSize: 17)
+        nameTextField.alpha = 0.25
+        nameTextField.frame.origin = CGPoint(x: 3, y: (nameTextField.font?.pointSize)! / 2)
+        nameTextField.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
+        nameTextField.layer.cornerRadius = 17
+        nameTextField.addShadow()
+        nameTextField.becomeFirstResponder()
+        
+        //        placeholder = UILabel()
+        //        placeholder.text = "Description"
+        //        placeholder.font = .italicSystemFont(ofSize: 20)
+        //        placeholder.alpha = 0.25
+        //        placeholder.sizeToFit()
+        //        placeholder.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
+        //        placeholder.textColor = .systemGray5
+        //        placeholder.isHidden = !descriptionTextView.text.isEmpty
+        // descriptionTextView.addSubview(placeholder)
+        
+        
+        
+        descriptionTextView.delegate = self
+        descriptionTextView.text = "Description"
+        descriptionTextView.textColor = UIColor.systemGray5
+        descriptionTextView.font = .italicSystemFont(ofSize: 20)
+        descriptionTextView.sizeToFit()
+        descriptionTextView.alpha = 0.25
+        descriptionTextView.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
+        descriptionTextView.addShadowForTextView()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        textFieldLabel.layer.cornerRadius = 17
-        textFieldLabel.addShadow()
-        textViewLabel.addShadowForTextView()
-        
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        print("blablabla")
+        
+        if let textName = nameTextField.text, let textDescription = descriptionTextView.text{
+            let task = ModelTask(nameTask: textName, descriptionTask: textDescription)
+            delegate?.completedCreateTask(data: task)
+            dismiss(animated: true)
+        }
     }
     
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true)
     }
-    
-    func saveText(){
-        model = Model(text: textFieldLabel.text!)
-    }
 }
 
 extension NotesViewController: UITextFieldDelegate{
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        textField.becomeFirstResponder()
+        
+        if nameTextField.textColor == UIColor.systemGray5{
+            nameTextField.text = ""
+            nameTextField.textColor = UIColor.white
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if nameTextField.text == "" {
+            nameTextField.text = "    Name..."
+            nameTextField.textColor = UIColor.systemGray5
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        nameTextField.resignFirstResponder()
+        return true
+    }
+    
     @objc func saveEnabling(){
-        if textFieldLabel.text?.isEmpty == false{
+        if nameTextField.text?.isEmpty == false{
             saveButton.isEnabled = true
         }else{
             saveButton.isEnabled = false
@@ -72,50 +122,26 @@ extension NotesViewController: UITextFieldDelegate{
     }
 }
 
-extension UIView {
-    func addShadow() {
-        
-        let innerShadow = CALayer()
-        innerShadow.frame = bounds
-        let radius = self.frame.size.height / 2
-        let path = UIBezierPath(roundedRect: innerShadow.bounds.insetBy(dx: -1, dy: -1), cornerRadius: radius)
-        let cutout = UIBezierPath(roundedRect: innerShadow.bounds, cornerRadius: radius).reversing()
-        
-        path.append(cutout)
-        innerShadow.shadowPath = path.cgPath
-        innerShadow.masksToBounds = true
-        innerShadow.shadowColor = UIColor.black.cgColor
-        innerShadow.shadowOffset = CGSize(width: 1, height: 3)
-        innerShadow.shadowOpacity = 1
-        innerShadow.shadowRadius = 2
-        innerShadow.cornerRadius = self.frame.size.height / 2
-        
-        layer.addSublayer(innerShadow)
-    }
-    
-    func addShadowForTextView(shadowColor: CGColor = UIColor.black.cgColor,
-                              shadowOffset: CGSize = CGSize(width: 1.0, height: 2.0),
-                              shadowOpacity: Float = 0.4,
-                              shadowRadius: CGFloat = 3.0){
-        layer.shadowColor = shadowColor
-        layer.shadowOffset = shadowOffset
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowRadius = shadowRadius
-        layer.masksToBounds = false
-    }
-}
-
 extension NotesViewController: UITextViewDelegate{
     
     func textViewDidChange(_ textView: UITextView) {
-        placeholder.isHidden = !textView.text.isEmpty
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        placeholder.isHidden = !textView.text.isEmpty
+        
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        placeholder.isHidden = true
+        
+        if descriptionTextView.textColor == UIColor.systemGray5{
+            descriptionTextView.text = ""
+            descriptionTextView.textColor = UIColor.white
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        
+        if descriptionTextView.text == "" {
+            descriptionTextView.text = "Description"
+            descriptionTextView.textColor = UIColor.systemGray5
+        }
     }
 }
+

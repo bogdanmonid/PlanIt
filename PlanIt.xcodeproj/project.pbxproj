@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		306467992A310AE300BAA0FC /* Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306467982A310AE300BAA0FC /* Shadows.swift */; };
 		30A22F722A24E328002D013C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A22F712A24E328002D013C /* CustomTableViewCell.swift */; };
 		30BD77492A1A8A1D00D8E72D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BD77482A1A8A1D00D8E72D /* AppDelegate.swift */; };
 		30BD774B2A1A8A1D00D8E72D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BD774A2A1A8A1D00D8E72D /* SceneDelegate.swift */; };
@@ -15,10 +16,11 @@
 		30BD77552A1A8A1F00D8E72D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30BD77532A1A8A1F00D8E72D /* LaunchScreen.storyboard */; };
 		30C948232A23C0D9007EABAD /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C948222A23C0D9007EABAD /* MainScreen.swift */; };
 		30EC6B632A264D6600CC1955 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EC6B622A264D6600CC1955 /* NotesViewController.swift */; };
-		30FFFDDC2A2D08240037B9D9 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FFFDDB2A2D08240037B9D9 /* Model.swift */; };
+		30FFFDDC2A2D08240037B9D9 /* ModelTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FFFDDB2A2D08240037B9D9 /* ModelTask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		306467982A310AE300BAA0FC /* Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadows.swift; sourceTree = "<group>"; };
 		30A22F712A24E328002D013C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		30BD77452A1A8A1D00D8E72D /* PlanIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlanIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30BD77482A1A8A1D00D8E72D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -29,7 +31,7 @@
 		30BD77562A1A8A1F00D8E72D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30C948222A23C0D9007EABAD /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		30EC6B622A264D6600CC1955 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
-		30FFFDDB2A2D08240037B9D9 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		30FFFDDB2A2D08240037B9D9 /* ModelTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		306467972A310AC000BAA0FC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				306467982A310AE300BAA0FC /* Shadows.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		30BD773C2A1A8A1C00D8E72D = {
 			isa = PBXGroup;
 			children = (
@@ -67,7 +77,8 @@
 				30C948222A23C0D9007EABAD /* MainScreen.swift */,
 				30EC6B622A264D6600CC1955 /* NotesViewController.swift */,
 				30A22F712A24E328002D013C /* CustomTableViewCell.swift */,
-				30FFFDDB2A2D08240037B9D9 /* Model.swift */,
+				30FFFDDB2A2D08240037B9D9 /* ModelTask.swift */,
+				306467972A310AC000BAA0FC /* Helpers */,
 				30BD774E2A1A8A1D00D8E72D /* Main.storyboard */,
 				30BD77512A1A8A1F00D8E72D /* Assets.xcassets */,
 				30BD77532A1A8A1F00D8E72D /* LaunchScreen.storyboard */,
@@ -150,8 +161,9 @@
 				30C948232A23C0D9007EABAD /* MainScreen.swift in Sources */,
 				30EC6B632A264D6600CC1955 /* NotesViewController.swift in Sources */,
 				30BD77492A1A8A1D00D8E72D /* AppDelegate.swift in Sources */,
-				30FFFDDC2A2D08240037B9D9 /* Model.swift in Sources */,
+				30FFFDDC2A2D08240037B9D9 /* ModelTask.swift in Sources */,
 				30A22F722A24E328002D013C /* CustomTableViewCell.swift in Sources */,
+				306467992A310AE300BAA0FC /* Shadows.swift in Sources */,
 				30BD774B2A1A8A1D00D8E72D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

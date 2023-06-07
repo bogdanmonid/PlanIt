@@ -8,14 +8,16 @@
 import UIKit
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
+  
     
-    var model = [Model]()
+    
+   var tasks = [ModelTask]()
     
     @IBOutlet weak var tableViewLabel: UITableView!
     
-    var tasks = ["go to store",
-                 "plan for the next day",
-                 "important facts"]
+//    var tasks = ["go to store",
+//                 "plan for the next day",
+//                 "important facts"]
 
    
     
@@ -23,7 +25,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor(named: "28313A")
-       
+      
         
     }
     
@@ -33,21 +35,30 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.label.text = tasks[indexPath.row]
+        cell.label.text = tasks[indexPath.row].nameTask
         return cell
     }
     
-    
-    @IBAction func unwindSegue(segue: UIStoryboardSegue){
-        guard let notesVC = segue.source as? NotesViewController else {return}
-        notesVC.saveText()
-        model.append(notesVC.model!)
-        tableViewLabel.reloadData()
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            tableView.beginUpdates()
+            tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+        }
     }
     
-   
-    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let notesVC = segue.destination as? UINavigationController else {return}
+        (notesVC.topViewController as! NotesViewController).delegate = self
+        
+        present(notesVC, animated: true)
+    }
+}
 
-   
-   
+extension MainScreen: NotesViewControllerDelegate{
+    func completedCreateTask(data: ModelTask) {
+        tasks.append(data)
+        tableViewLabel.reloadData()
+    }
 }
