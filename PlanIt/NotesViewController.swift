@@ -12,12 +12,15 @@ protocol NotesViewControllerDelegate {
     func completedCreateTask(data: ModelTask)
 }
 
+struct Keys{
+    static let name = "name"
+    static let description = "description"
+}
+
 class NotesViewController: UIViewController{
     
     var delegate: NotesViewControllerDelegate?
-    var placeholder: UILabel!
-    
-    
+    var defaults = UserDefaults.standard
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!
@@ -42,19 +45,6 @@ class NotesViewController: UIViewController{
         nameTextField.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
         nameTextField.layer.cornerRadius = 17
         nameTextField.addShadow()
-        nameTextField.becomeFirstResponder()
-        
-        //        placeholder = UILabel()
-        //        placeholder.text = "Description"
-        //        placeholder.font = .italicSystemFont(ofSize: 20)
-        //        placeholder.alpha = 0.25
-        //        placeholder.sizeToFit()
-        //        placeholder.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
-        //        placeholder.textColor = .systemGray5
-        //        placeholder.isHidden = !descriptionTextView.text.isEmpty
-        // descriptionTextView.addSubview(placeholder)
-        
-        
         
         descriptionTextView.delegate = self
         descriptionTextView.text = "Description"
@@ -64,10 +54,8 @@ class NotesViewController: UIViewController{
         descriptionTextView.alpha = 0.25
         descriptionTextView.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
         descriptionTextView.addShadowForTextView()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+        
+        loadTasks()
     }
     
     @IBAction func saveAction(_ sender: Any) {
@@ -77,10 +65,31 @@ class NotesViewController: UIViewController{
             delegate?.completedCreateTask(data: task)
             dismiss(animated: true)
         }
+        
+        
+        
     }
     
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true)
+    }
+    
+    func saveTask(){
+        
+        defaults.setValue(nameTextField.text, forKey: Keys.name)
+        defaults.setValue(descriptionTextView.text, forKey: Keys.description)
+        nameTextField.resignFirstResponder()
+        descriptionTextView.resignFirstResponder()
+    }
+    
+    func loadTasks(){
+        if let name = defaults.object(forKey: Keys.name){
+            nameTextField.text = name as? String
+        }
+        
+        if let description = defaults.object(forKey: Keys.description){
+            descriptionTextView.text = description as? String
+        }
     }
 }
 
@@ -88,11 +97,12 @@ extension NotesViewController: UITextFieldDelegate{
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        textField.becomeFirstResponder()
+         nameTextField.becomeFirstResponder()
         
         if nameTextField.textColor == UIColor.systemGray5{
             nameTextField.text = ""
-            nameTextField.textColor = UIColor.white
+            nameTextField.alpha = 0.6
+            nameTextField.textColor = UIColor.systemGray5
         }
     }
     
@@ -101,6 +111,7 @@ extension NotesViewController: UITextFieldDelegate{
         if nameTextField.text == "" {
             nameTextField.text = "    Name..."
             nameTextField.textColor = UIColor.systemGray5
+            
         }
     }
     
@@ -110,6 +121,10 @@ extension NotesViewController: UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         nameTextField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
     
@@ -132,7 +147,8 @@ extension NotesViewController: UITextViewDelegate{
         
         if descriptionTextView.textColor == UIColor.systemGray5{
             descriptionTextView.text = ""
-            descriptionTextView.textColor = UIColor.white
+            descriptionTextView.alpha = 0.6
+            descriptionTextView.textColor = UIColor.systemGray5
         }
     }
     
