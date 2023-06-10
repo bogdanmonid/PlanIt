@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct ModelTask{
+struct ModelTask: Codable{
     
-    var nameTask: String
+    var id: Double
+    var titleTask: String
     var descriptionTask: String
-    
 }

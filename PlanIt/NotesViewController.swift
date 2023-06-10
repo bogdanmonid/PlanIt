@@ -23,11 +23,10 @@ class NotesViewController: UIViewController{
     var defaults = UserDefaults.standard
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!{
         didSet{
             descriptionTextView.layer.cornerRadius = 13
-            
         }
     }
     
@@ -36,20 +35,20 @@ class NotesViewController: UIViewController{
         
         saveButton.isEnabled = false
         
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: titleTextField.frame.height))
         
-        nameTextField.leftView = paddingView
-        nameTextField.leftViewMode = .always
-        nameTextField.delegate = self
-        nameTextField.text = " Name..."
-        nameTextField.textColor = UIColor.systemGray5
-        nameTextField.font = .italicSystemFont(ofSize: 17)
-        nameTextField.alpha = 0.25
-        nameTextField.frame.origin = CGPoint(x: 3, y: (nameTextField.font?.pointSize)! / 2)
-        nameTextField.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
-        nameTextField.layer.cornerRadius = 17
-        nameTextField.autocapitalizationType = .words
-        nameTextField.addShadow()
+        titleTextField.leftView = paddingView
+        titleTextField.leftViewMode = .always
+        titleTextField.delegate = self
+        titleTextField.text = " Name..."
+        titleTextField.textColor = UIColor.systemGray5
+        titleTextField.font = .italicSystemFont(ofSize: 17)
+        titleTextField.alpha = 0.25
+        titleTextField.frame.origin = CGPoint(x: 3, y: (titleTextField.font?.pointSize)! / 2)
+        titleTextField.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
+        titleTextField.layer.cornerRadius = 17
+        titleTextField.autocapitalizationType = .words
+        titleTextField.addShadow()
         
         descriptionTextView.delegate = self
         descriptionTextView.text = "Description"
@@ -59,15 +58,12 @@ class NotesViewController: UIViewController{
         descriptionTextView.alpha = 0.25
         descriptionTextView.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
         descriptionTextView.addShadowForTextView()
-        
-        loadTasks()
-        deleteTask()
     }
     
     @IBAction func saveAction(_ sender: Any) {
         
-        if let textName = nameTextField.text, let textDescription = descriptionTextView.text{
-            let task = ModelTask(nameTask: textName, descriptionTask: textDescription)
+        if let textName = titleTextField.text, let textDescription = descriptionTextView.text{
+            let task = ModelTask(id: 0, titleTask: textName, descriptionTask: textDescription)
             delegate?.completedCreateTask(data: task)
             dismiss(animated: true)
         }
@@ -76,50 +72,25 @@ class NotesViewController: UIViewController{
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true)
     }
-    
-    func saveTask(){
-       
-            defaults.setValue(nameTextField.text, forKey: Keys.name)
-            defaults.setValue(descriptionTextView.text, forKey: Keys.description)
-            nameTextField.resignFirstResponder()
-            descriptionTextView.resignFirstResponder()
-      
-    }
-    
-    func loadTasks(){
-        if let name = defaults.object(forKey: Keys.name){
-            nameTextField.text = name as? String
-        }
-
-        if let description = defaults.object(forKey: Keys.description){
-            descriptionTextView.text = description as? String
-        }
-    }
-    
-    func deleteTask(){
-        UserDefaults.standard.removeObject(forKey: Keys.name)
-        UserDefaults.standard.removeObject(forKey: Keys.description)
-    }
 }
 
 extension NotesViewController: UITextFieldDelegate{
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-         nameTextField.becomeFirstResponder()
+        titleTextField.becomeFirstResponder()
         
-        if nameTextField.textColor == UIColor.systemGray5{
-            nameTextField.text = ""
-            nameTextField.alpha = 0.6
-           
+        if titleTextField.textColor == UIColor.systemGray5{
+            titleTextField.text = ""
+            titleTextField.alpha = 0.6
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        if nameTextField.text == "" {
-            nameTextField.alpha = 0.25
-            nameTextField.text = " Name..."
+        if titleTextField.text == "" {
+            titleTextField.alpha = 0.25
+            titleTextField.text = " Name..."
         }
     }
     
@@ -128,7 +99,7 @@ extension NotesViewController: UITextFieldDelegate{
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nameTextField.resignFirstResponder()
+        titleTextField.resignFirstResponder()
         return true
     }
     
@@ -137,7 +108,7 @@ extension NotesViewController: UITextFieldDelegate{
     }
     
     @objc func saveEnabling(){
-        if nameTextField.text?.isEmpty == false{
+        if titleTextField.text?.isEmpty == false{
             saveButton.isEnabled = true
         }else{
             saveButton.isEnabled = false

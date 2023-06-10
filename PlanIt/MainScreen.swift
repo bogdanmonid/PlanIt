@@ -9,23 +9,15 @@ import UIKit
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
-    
-    
-   var tasks = [ModelTask]()
+    var tasks = StorageManager.getTasks()
     
     @IBOutlet weak var tableViewLabel: UITableView!
-    
-//    var tasks = ["go to store",
-//                 "plan for the next day",
-//                 "important facts"]
-
    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor(named: "28313A")
-      
+        
         
     }
     
@@ -35,7 +27,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.label.text = tasks[indexPath.row].nameTask
+        cell.label.text = tasks[indexPath.row].titleTask
         return cell
     }
     
@@ -49,16 +41,26 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let notesVC = segue.destination as? UINavigationController else {return}
-        (notesVC.topViewController as! NotesViewController).delegate = self
+        guard let navigationNote = segue.destination as? UINavigationController else {return}
+       (navigationNote.topViewController as! NotesViewController).delegate = self
         
-        present(notesVC, animated: true)
+        present(navigationNote, animated: true)
     }
 }
 
 extension MainScreen: NotesViewControllerDelegate{
     func completedCreateTask(data: ModelTask) {
         tasks.append(data)
+        
+        save(data: data)
+        
         tableViewLabel.reloadData()
+    }
+    
+    func save(data: ModelTask){
+        
+        DispatchQueue.global().async {
+            StorageManager.saveTask(task: data)
+        }
     }
 }

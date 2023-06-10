@@ -220,8 +220,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="descriptionTextView" destination="7hw-xA-F2m" id="SPz-3J-1AZ"/>
-                        <outlet property="nameTextField" destination="Pde-gj-JpZ" id="yvE-lN-lnl"/>
                         <outlet property="saveButton" destination="Oog-z6-cnO" id="mr4-hP-YQG"/>
+                        <outlet property="titleTextField" destination="Pde-gj-JpZ" id="yvE-lN-lnl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jFD-kc-O3V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
