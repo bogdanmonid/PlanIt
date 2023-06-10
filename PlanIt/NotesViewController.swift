@@ -36,14 +36,19 @@ class NotesViewController: UIViewController{
         
         saveButton.isEnabled = false
         
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
+        
+        nameTextField.leftView = paddingView
+        nameTextField.leftViewMode = .always
         nameTextField.delegate = self
-        nameTextField.text = "    Name..."
+        nameTextField.text = " Name..."
         nameTextField.textColor = UIColor.systemGray5
         nameTextField.font = .italicSystemFont(ofSize: 17)
         nameTextField.alpha = 0.25
         nameTextField.frame.origin = CGPoint(x: 3, y: (nameTextField.font?.pointSize)! / 2)
         nameTextField.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
         nameTextField.layer.cornerRadius = 17
+        nameTextField.autocapitalizationType = .words
         nameTextField.addShadow()
         
         descriptionTextView.delegate = self
@@ -56,6 +61,7 @@ class NotesViewController: UIViewController{
         descriptionTextView.addShadowForTextView()
         
         loadTasks()
+        deleteTask()
     }
     
     @IBAction func saveAction(_ sender: Any) {
@@ -65,9 +71,6 @@ class NotesViewController: UIViewController{
             delegate?.completedCreateTask(data: task)
             dismiss(animated: true)
         }
-        
-        
-        
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -75,21 +78,27 @@ class NotesViewController: UIViewController{
     }
     
     func saveTask(){
-        
-        defaults.setValue(nameTextField.text, forKey: Keys.name)
-        defaults.setValue(descriptionTextView.text, forKey: Keys.description)
-        nameTextField.resignFirstResponder()
-        descriptionTextView.resignFirstResponder()
+       
+            defaults.setValue(nameTextField.text, forKey: Keys.name)
+            defaults.setValue(descriptionTextView.text, forKey: Keys.description)
+            nameTextField.resignFirstResponder()
+            descriptionTextView.resignFirstResponder()
+      
     }
     
     func loadTasks(){
         if let name = defaults.object(forKey: Keys.name){
             nameTextField.text = name as? String
         }
-        
+
         if let description = defaults.object(forKey: Keys.description){
             descriptionTextView.text = description as? String
         }
+    }
+    
+    func deleteTask(){
+        UserDefaults.standard.removeObject(forKey: Keys.name)
+        UserDefaults.standard.removeObject(forKey: Keys.description)
     }
 }
 
@@ -102,16 +111,15 @@ extension NotesViewController: UITextFieldDelegate{
         if nameTextField.textColor == UIColor.systemGray5{
             nameTextField.text = ""
             nameTextField.alpha = 0.6
-            nameTextField.textColor = UIColor.systemGray5
+           
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if nameTextField.text == "" {
-            nameTextField.text = "    Name..."
-            nameTextField.textColor = UIColor.systemGray5
-            
+            nameTextField.alpha = 0.25
+            nameTextField.text = " Name..."
         }
     }
     
@@ -148,15 +156,14 @@ extension NotesViewController: UITextViewDelegate{
         if descriptionTextView.textColor == UIColor.systemGray5{
             descriptionTextView.text = ""
             descriptionTextView.alpha = 0.6
-            descriptionTextView.textColor = UIColor.systemGray5
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         
-        if descriptionTextView.text == "" {
+        if descriptionTextView.text == ""{
+            descriptionTextView.alpha = 0.25
             descriptionTextView.text = "Description"
-            descriptionTextView.textColor = UIColor.systemGray5
         }
     }
 }
