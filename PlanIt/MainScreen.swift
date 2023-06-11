@@ -59,7 +59,7 @@ extension MainScreen: NotesViewControllerDelegate{
     
     func save(data: ModelTask){
         
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             StorageManager.saveTask(task: data)
         }
     }
