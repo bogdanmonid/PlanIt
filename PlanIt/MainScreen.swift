@@ -70,9 +70,21 @@ extension MainScreen: NotesViewControllerDelegate{
 
 extension MainScreen: CustomTableViewCellDelegate{
     func editingTask() {
-        let noteVC = NotesViewController()
+        let noteVC = storyboard?.instantiateViewController(withIdentifier: "storyboardIdentifier") as! NotesViewController
+        navigationController?.pushViewController(noteVC, animated: true)
+    
         noteVC.delegate = self
-//        noteVC.isEdit = true
+        noteVC.isEdit = true
+        
+//        if let navigationController = noteVC.navigationController{
+//            if let notesViewController = navigationController.topViewController as? NotesViewController{
+//                notesViewController.delegate = self
+//                notesViewController.isEdit = true
+//            }
+//        }
+        
+      //  (noteVC.navigationController?.topViewController as! NotesViewController).delegate = self
+       // (noteVC.navigationController?.topViewController as! NotesViewController).isEdit = true
         present(noteVC, animated: true)
     }
 }

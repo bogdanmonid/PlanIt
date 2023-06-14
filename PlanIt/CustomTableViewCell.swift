@@ -14,8 +14,6 @@ protocol CustomTableViewCellDelegate {
 class CustomTableViewCell: UITableViewCell {
     
     var customDelegate: CustomTableViewCellDelegate?
-    var isEdit = true
-    
     
     @IBOutlet weak var checkMarkLabel: UIButton!
     @IBOutlet weak var pencilLabel: UIButton!
@@ -35,6 +33,7 @@ class CustomTableViewCell: UITableViewCell {
     
     
     @IBAction func editAction(_ sender: UIButton) {
+        
         customDelegate?.editingTask()
     }
     
