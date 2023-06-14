@@ -8,19 +8,14 @@
 import UIKit
 
 protocol NotesViewControllerDelegate {
-    
-    func completedCreateTask(data: ModelTask)
+    func completedCreateTask(data: ModelTask, isEdit: Bool)
 }
 
-struct Keys{
-    static let name = "name"
-    static let description = "description"
-}
 
 class NotesViewController: UIViewController{
     
+    var isEdit = false
     var delegate: NotesViewControllerDelegate?
-    var defaults = UserDefaults.standard
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
@@ -33,7 +28,7 @@ class NotesViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        saveButton.isEnabled = false
+       // saveButton.isEnabled = false
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: titleTextField.frame.height))
         
@@ -64,7 +59,7 @@ class NotesViewController: UIViewController{
         
         if let textName = titleTextField.text, let textDescription = descriptionTextView.text{
             let task = ModelTask(id: 0, titleTask: textName, descriptionTask: textDescription)
-            delegate?.completedCreateTask(data: task)
+            delegate?.completedCreateTask(data: task, isEdit: isEdit)
             dismiss(animated: true)
         }
     }

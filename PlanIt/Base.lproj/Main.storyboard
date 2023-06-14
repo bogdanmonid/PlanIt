@@ -64,6 +64,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="Vector"/>
+                                                    <connections>
+                                                        <action selector="editAction:" destination="bO1-Sz-K0K" eventType="touchUpInside" id="SYh-eF-iql"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dh1-TS-meC">
                                                     <rect key="frame" x="20" y="15" width="35" height="35"/>
@@ -164,7 +167,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VT4-OE-vrL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="28" y="-119"/>
+            <point key="canvasLocation" x="-11" y="-278"/>
         </scene>
         <!--Notes View Controller-->
         <scene sceneID="se4-0E-oIc">
@@ -233,6 +236,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0ls-K7-KTX" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="lWh-UM-dyG"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ygd-YP-nEx">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

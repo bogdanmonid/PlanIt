@@ -7,8 +7,16 @@
 
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+protocol CustomTableViewCellDelegate {
+    func editingTask()
+}
 
+class CustomTableViewCell: UITableViewCell {
+    
+    var customDelegate: CustomTableViewCellDelegate?
+    var isEdit = true
+    
+    
     @IBOutlet weak var checkMarkLabel: UIButton!
     @IBOutlet weak var pencilLabel: UIButton!
     @IBOutlet weak var label: UILabel!{
@@ -23,6 +31,11 @@ class CustomTableViewCell: UITableViewCell {
         
         checkMarkLabel.setImage(UIImage(named: "buttonImage"), for: .normal)
         checkMarkLabel.setImage(UIImage(named: "checkMark"), for: .selected)
+    }
+    
+    
+    @IBAction func editAction(_ sender: UIButton) {
+        customDelegate?.editingTask()
     }
     
     @IBAction func checkAction(_ sender: UIButton) {
