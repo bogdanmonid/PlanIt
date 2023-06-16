@@ -17,7 +17,7 @@ class NotesViewController: UIViewController{
     var isEdit = false
     var delegate: NotesViewControllerDelegate?
     
-    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIBarButtonItem! 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!{
         didSet{

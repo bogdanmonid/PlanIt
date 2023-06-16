@@ -172,10 +172,10 @@
             </objects>
             <point key="canvasLocation" x="-11.450381679389313" y="-278.16901408450707"/>
         </scene>
-        <!--View Controller-->
+        <!--Title-->
         <scene sceneID="1Rb-wz-JBh">
             <objects>
-                <viewController id="QGJ-CR-0Xe" sceneMemberID="viewController">
+                <viewController id="QGJ-CR-0Xe" customClass="CoffeeViewController" customModule="PlanIt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AWC-gQ-XRT">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -204,7 +204,7 @@
                             <constraint firstItem="1f6-ET-1Ln" firstAttribute="leading" secondItem="d9p-lX-TNp" secondAttribute="leading" id="qZ1-yK-KaB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ZQe-oh-mgN"/>
+                    <navigationItem key="navigationItem" title="Title" id="QMl-JC-uo2"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wxu-Xb-xy3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -213,7 +213,7 @@
         <!--Notes View Controller-->
         <scene sceneID="se4-0E-oIc">
             <objects>
-                <viewController storyboardIdentifier="storyboardIdentifier" id="la0-xh-dlC" customClass="NotesViewController" customModule="PlanIt" sceneMemberID="viewController">
+                <viewController id="la0-xh-dlC" customClass="NotesViewController" customModule="PlanIt" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ndi-ei-ZTv">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -265,7 +265,7 @@
                     <connections>
                         <outlet property="descriptionTextView" destination="7hw-xA-F2m" id="SPz-3J-1AZ"/>
                         <outlet property="saveButton" destination="Oog-z6-cnO" id="mr4-hP-YQG"/>
-                        <outlet property="titleTextField" destination="Pde-gj-JpZ" id="yvE-lN-lnl"/>
+                        <outlet property="titleTextField" destination="Pde-gj-JpZ" id="Bq7-1s-Y5x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jFD-kc-O3V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -275,7 +275,8 @@
         <!--Navigation Controller-->
         <scene sceneID="YI1-dq-uaJ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0ls-K7-KTX" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xHr-92-OQF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController storyboardIdentifier="storyboardIdentifier" automaticallyAdjustsScrollViewInsets="NO" id="0ls-K7-KTX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="lWh-UM-dyG"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ygd-YP-nEx">
@@ -288,7 +289,6 @@
                         <segue destination="la0-xh-dlC" kind="relationship" relationship="rootViewController" id="fFv-kM-hOG"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xHr-92-OQF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="700" y="-479"/>
         </scene>

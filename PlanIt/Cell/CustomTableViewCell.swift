@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CustomTableViewCellDelegate {
-    func editingTask()
+    func editingTask(title: String)
 }
 
 class CustomTableViewCell: UITableViewCell {
@@ -34,7 +34,7 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBAction func editAction(_ sender: UIButton) {
         
-        customDelegate?.editingTask()
+        customDelegate?.editingTask(title: "dfsf")
     }
     
     @IBAction func checkAction(_ sender: UIButton) {

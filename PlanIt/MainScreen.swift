@@ -44,8 +44,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let navigationNote = segue.destination as? UINavigationController else {return}
-        (navigationNote.topViewController as! NotesViewController).delegate = self
-        (navigationNote.topViewController as! NotesViewController).isEdit = false
+        (navigationNote.topViewController as? NotesViewController)?.delegate = self
+        (navigationNote.topViewController as? NotesViewController)?.isEdit = false
         present(navigationNote, animated: true)
     }
 }
@@ -69,22 +69,25 @@ extension MainScreen: NotesViewControllerDelegate{
 }
 
 extension MainScreen: CustomTableViewCellDelegate{
-    func editingTask() {
-        let noteVC = storyboard?.instantiateViewController(withIdentifier: "storyboardIdentifier") as! NotesViewController
-        navigationController?.pushViewController(noteVC, animated: true)
-    
-        noteVC.delegate = self
-        noteVC.isEdit = true
+    func editingTask(title: String) {
+        let navigationNoteVC = storyboard?.instantiateViewController(withIdentifier: "storyboardIdentifier") as! UINavigationController
+        (navigationNoteVC.topViewController as? NotesViewController)?.delegate = self
+        (navigationNoteVC.topViewController as? NotesViewController)?.isEdit = true
+        present(navigationNoteVC, animated: true)
         
-//        if let navigationController = noteVC.navigationController{
+    }
+}
+    
+//        .delegate = self
+//        noteVC.isEdit = true//
+//        if let navigationController = navigationNoteVC.navigationController{
 //            if let notesViewController = navigationController.topViewController as? NotesViewController{
+//
 //                notesViewController.delegate = self
 //                notesViewController.isEdit = true
 //            }
 //        }
         
-      //  (noteVC.navigationController?.topViewController as! NotesViewController).delegate = self
-       // (noteVC.navigationController?.topViewController as! NotesViewController).isEdit = true
-        present(noteVC, animated: true)
-    }
-}
+//        (noteVC.navigationController?.topViewController as! NotesViewController).delegate = self
+//        (noteVC.navigationController?.topViewController as! NotesViewController).isEdit = true
+          //present(noteVC, animated: true)
