@@ -33,22 +33,22 @@ class StorageManager{
         UserDefaults.standard.setValue( try? JSONEncoder().encode(tasks), forKey: taskKey)  //кодируем данные и сохраняем их
         
     }
-    
-    static func getTitle(tasks: [ModelTask]) -> ModelTask{
-        
-        let data = UserDefaults.standard.value(forKey: taskKey) as? Data
-        
-        for task in tasks {
-            
-            tasks.contains(where: {$0.titleTask == task.titleTask})
-            
-            
-          
-            
-            
-        }
-        return 
-    }
+//    
+//    static func getTitle(tasks: [ModelTask]) -> ModelTask{
+//        
+//        let data = UserDefaults.standard.value(forKey: taskKey) as? Data
+//        
+//        for task in tasks {
+//            
+//            tasks.contains(where: {$0.titleTask == task.titleTask})
+//            
+//            
+//          
+//            
+//            
+//        }
+//        return 
+//    }
     
     //
     //    static func saveTask(task: ModelTask) { // создаем метод для сохранения записей

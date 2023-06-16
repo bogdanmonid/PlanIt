@@ -29,8 +29,8 @@ class CustomTableViewCell: UITableViewCell {
         
         checkMarkLabel.setImage(UIImage(named: "buttonImage"), for: .normal)
         checkMarkLabel.setImage(UIImage(named: "checkMark"), for: .selected)
+        checkMarkLabel.tintColor = .clear
     }
-    
     
     @IBAction func editAction(_ sender: UIButton) {
         
@@ -39,5 +39,6 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBAction func checkAction(_ sender: UIButton) {
         checkMarkLabel.isSelected = !checkMarkLabel.isSelected
+        
     }
 }
