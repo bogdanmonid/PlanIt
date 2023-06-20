@@ -39,6 +39,5 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBAction func checkAction(_ sender: UIButton) {
         checkMarkLabel.isSelected = !checkMarkLabel.isSelected
-        
     }
 }

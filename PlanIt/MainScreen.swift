@@ -18,8 +18,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "28313A")
-        
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -30,6 +28,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.label.text = tasks[indexPath.row].titleTask
         cell.customDelegate = self
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        
         return cell
     }
     
@@ -53,7 +53,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
 extension MainScreen: NotesViewControllerDelegate{
     func completedCreateTask(data: ModelTask, isEdit: Bool) {
         
-        tasks.append(data)
+        //tasks.append(data)
+        tasks.insert(data, at: 0)
+    
         
         save(data: data)
         
@@ -77,17 +79,4 @@ extension MainScreen: CustomTableViewCellDelegate{
         
     }
 }
-    
-//        .delegate = self
-//        noteVC.isEdit = true//
-//        if let navigationController = navigationNoteVC.navigationController{
-//            if let notesViewController = navigationController.topViewController as? NotesViewController{
-//
-//                notesViewController.delegate = self
-//                notesViewController.isEdit = true
-//            }
-//        }
-        
-//        (noteVC.navigationController?.topViewController as! NotesViewController).delegate = self
-//        (noteVC.navigationController?.topViewController as! NotesViewController).isEdit = true
-          //present(noteVC, animated: true)
+

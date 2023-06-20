@@ -16,8 +16,6 @@ class NotesViewController: UIViewController{
     
     var isEdit = false
     var delegate: NotesViewControllerDelegate?
-    var savedTextInTitleTextField: String = ""
-    var savedTextInDescriptionTextView: String = ""
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
@@ -33,22 +31,21 @@ class NotesViewController: UIViewController{
         saveButton.isEnabled = false
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: titleTextField.frame.height))
-        
-        titleTextField.text = savedTextInTitleTextField
+      
+       
         titleTextField.leftView = paddingView
         titleTextField.leftViewMode = .always
         titleTextField.delegate = self
+        titleTextField.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
+        titleTextField.layer.cornerRadius = 17
+        titleTextField.autocapitalizationType = .words
         titleTextField.text = " Name..."
         titleTextField.textColor = UIColor.systemGray5
         titleTextField.font = .italicSystemFont(ofSize: 17)
         titleTextField.alpha = 0.75
         titleTextField.frame.origin = CGPoint(x: 3, y: (titleTextField.font?.pointSize)! / 2)
-        titleTextField.addTarget(self, action: #selector(saveEnabling), for: .editingChanged)
-        titleTextField.layer.cornerRadius = 17
-        titleTextField.autocapitalizationType = .words
         titleTextField.addShadow()
         
-        descriptionTextView.text = savedTextInDescriptionTextView
         descriptionTextView.delegate = self
         descriptionTextView.text = "Description"
         descriptionTextView.textColor = UIColor.systemGray5
@@ -94,7 +91,7 @@ extension NotesViewController: UITextFieldDelegate{
         
         titleTextField.becomeFirstResponder()
         
-        if titleTextField.textColor == UIColor.systemGray5{
+        if titleTextField.text == " Name..."{
             titleTextField.text = ""
             titleTextField.alpha = 0.75
         }
@@ -139,17 +136,13 @@ extension NotesViewController: UITextViewDelegate{
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         
-        savedTextInDescriptionTextView = descriptionTextView.text ?? ""
-        
-        if descriptionTextView.textColor == UIColor.systemGray5{
+        if descriptionTextView.text == "Description"{
             descriptionTextView.text = ""
             descriptionTextView.alpha = 0.75
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        
-        //savedTextInDescriptionTextView == descriptionTextView.text
         
         if descriptionTextView.text == ""{
             descriptionTextView.alpha = 0.75
