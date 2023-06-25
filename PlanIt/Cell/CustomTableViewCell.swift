@@ -33,8 +33,7 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @IBAction func editAction(_ sender: UIButton) {
-        
-        customDelegate?.editingTask(title: "dfsf")
+        customDelegate?.editingTask(title: label.text ?? "")
     }
     
     @IBAction func checkAction(_ sender: UIButton) {

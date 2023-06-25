@@ -16,6 +16,7 @@ class NotesViewController: UIViewController{
     
     var isEdit = false
     var delegate: NotesViewControllerDelegate?
+    var editTask: ModelTask?
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
@@ -31,7 +32,6 @@ class NotesViewController: UIViewController{
         saveButton.isEnabled = false
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: titleTextField.frame.height))
-      
        
         titleTextField.leftView = paddingView
         titleTextField.leftViewMode = .always
@@ -57,6 +57,8 @@ class NotesViewController: UIViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        setDataIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,14 +76,27 @@ class NotesViewController: UIViewController{
     @IBAction func saveAction(_ sender: Any) {
         
         if let textName = titleTextField.text, let textDescription = descriptionTextView.text{
-            let task = ModelTask(id: 0, titleTask: textName, descriptionTask: textDescription)
+            let task = ModelTask(id: editTask == nil ? Date.timeIntervalSinceReferenceDate : editTask!.id, titleTask: textName, descriptionTask: textDescription) // создаем                                                                                                                 нужную задачу, id присваеваем только тогда, когда уже                                                                                          есть задача. let task - создание новой модели нашей задачи. если true, то                                                                                                                  присваеваем первое после(сохранение новой задачи) ?,                                                                          если false(id не ниловый, то присваеваем id, который уже был в этой задаче), то второе
             delegate?.completedCreateTask(data: task, isEdit: isEdit)
+            
+//            if titleTextField.text == nil && descriptionTextView.text == nil{
+//                saveButton.isEnabled = false
+//            } else {
+//                saveButton.isEnabled = true
+//            }
             dismiss(animated: true)
         }
     }
     
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true)
+    }
+    
+    func setDataIfNeeded(){
+        
+        guard let editTask = editTask else {return}
+        titleTextField.text = editTask.titleTask
+        descriptionTextView.text = editTask.descriptionTask
     }
 }
 

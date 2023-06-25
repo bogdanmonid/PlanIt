@@ -33,22 +33,26 @@ class StorageManager{
         UserDefaults.standard.setValue( try? JSONEncoder().encode(tasks), forKey: taskKey)  //кодируем данные и сохраняем их
         
     }
-//    
-//    static func getTitle(tasks: [ModelTask]) -> ModelTask{
-//        
-//        let data = UserDefaults.standard.value(forKey: taskKey) as? Data
-//        
-//        for task in tasks {
-//            
-//            tasks.contains(where: {$0.titleTask == task.titleTask})
-//            
-//            
-//          
-//            
-//            
-//        }
-//        return 
-//    }
+    
+    static func getTask(title: String) -> ModelTask?{ //находим нужную задачу
+        
+        let tasks = getTasks() // получаем задачи
+        
+        let findTask = tasks.first { $0.titleTask == title } // получаем нужную задачу по заголовку. Функция first перебирает массив, пока не найдет true в условии
+
+        return findTask // опционалная, т.к объекта может и не быть и вернется nil
+    }
+    
+    static func replaceTask(task: ModelTask){   // принимаем и подменяем задачу
+        
+        var tasks = getTasks()
+        
+        let findTask = tasks.first { $0.id == task.id} // так же находим задачу, только параметр пойска уже id
+        let taskIndex = tasks.firstIndex(where: { $0.id == task.id }) // получаем индекс задачи, которую отредактировали
+        tasks[taskIndex!].titleTask = task.titleTask  // перезаписываем задачу. [taskIndex!] ведет к задаче, которую отредактировали. заменяем старые данные на новые
+        tasks[taskIndex!].descriptionTask = task.descriptionTask
+        UserDefaults.standard.setValue(try? JSONEncoder().encode(tasks), forKey: taskKey) //кодируем данные и сохраняем
+    }
     
     //
     //    static func saveTask(task: ModelTask) { // создаем метод для сохранения записей

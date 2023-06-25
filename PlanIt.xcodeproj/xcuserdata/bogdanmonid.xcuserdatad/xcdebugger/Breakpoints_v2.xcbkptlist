@@ -20,5 +20,69 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A499A5B5-928B-435B-A10E-7D47D03E9421"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PlanIt/NotesViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "setDataIfNeeded()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BE5BBE7A-5F11-47AF-8EF4-6FDA8CFC3671"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PlanIt/NotesViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "setDataIfNeeded()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BE5BBE7A-5F11-47AF-8EF4-6FDA8CFC3671 - 23745698000640d1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PlanIt.NotesViewController.setDataIfNeeded() -&gt; ()"
+                  moduleName = "PlanIt"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bogdanmonid/Desktop/newModul/PlanIt/PlanIt/NotesViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "BE5BBE7A-5F11-47AF-8EF4-6FDA8CFC3671 - 23745698000640d1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PlanIt.NotesViewController.setDataIfNeeded() -&gt; ()"
+                  moduleName = "PlanIt"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bogdanmonid/Desktop/newModul/PlanIt/PlanIt/NotesViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "160">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

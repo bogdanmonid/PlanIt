@@ -13,11 +13,15 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var tasks = StorageManager.getTasks()
     
     @IBOutlet weak var tableViewLabel: UITableView!
+    @IBOutlet weak var coffeeButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "28313A")
+        
+        coffeeButton.addTarget(self, action: #selector(presentCoffeeControl), for: .touchUpInside)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,7 +46,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {    // тут происхолит вызов при добавлении новой задачи
         guard let navigationNote = segue.destination as? UINavigationController else {return}
         (navigationNote.topViewController as? NotesViewController)?.delegate = self
         (navigationNote.topViewController as? NotesViewController)?.isEdit = false
@@ -53,12 +57,13 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
 extension MainScreen: NotesViewControllerDelegate{
     func completedCreateTask(data: ModelTask, isEdit: Bool) {
         
-        //tasks.append(data)
-        tasks.insert(data, at: 0)
-    
-        
-        save(data: data)
-        
+        if isEdit {    // если true, то редактируем задачу
+            StorageManager.replaceTask(task: data)
+            self.tasks = StorageManager.getTasks()
+        } else {   // если false, то добавляем новую задачу
+            tasks.insert(data, at: 0)
+            save(data: data)
+        }
         tableViewLabel.reloadData()
     }
     
@@ -70,13 +75,26 @@ extension MainScreen: NotesViewControllerDelegate{
     }
 }
 
-extension MainScreen: CustomTableViewCellDelegate{
+extension MainScreen: CustomTableViewCellDelegate{ // тут происходит редактирование задачи
     func editingTask(title: String) {
         let navigationNoteVC = storyboard?.instantiateViewController(withIdentifier: "storyboardIdentifier") as! UINavigationController
         (navigationNoteVC.topViewController as? NotesViewController)?.delegate = self
         (navigationNoteVC.topViewController as? NotesViewController)?.isEdit = true
-        present(navigationNoteVC, animated: true)
+        (navigationNoteVC.topViewController as? NotesViewController)?.editTask = StorageManager.getTask(title: title)
         
+        present(navigationNoteVC, animated: true)
+    }
+}
+
+extension MainScreen{
+    @objc func presentCoffeeControl(){
+        let destinationCoffeeVC = CoffeeViewController()
+        
+        destinationCoffeeVC.modalPresentationStyle = .pageSheet
+        destinationCoffeeVC.preferredContentSize = CGSize(width: 0, height: 300)
+        destinationCoffeeVC.sheetPresentationController?.detents = [.medium()]
+        destinationCoffeeVC.sheetPresentationController?.prefersGrabberVisible = true
+        present(destinationCoffeeVC, animated: true)
     }
 }
 
