@@ -90,15 +90,7 @@ extension MainScreen{
     @objc func presentCoffeeControl(){
         let detailCoffeeVC = CoffeeViewController()
         
-//        let navigationItem = self.navigationItem
-//        detailCoffeeVC.navigationItem.title = "Coffee control"
-//        detailCoffeeVC.navigationItem.rightBarButtonItem = navigationItem.rightBarButtonItem
-//        detailCoffeeVC.navigationItem.title = "Coffee control"
-//        let navigationNoteVC = storyboard?.instantiateViewController(withIdentifier: "storyboardIdentifier") as! UINavigationController
-       
-        
-        
-        detailCoffeeVC.modalPresentationStyle = .pageSheet //Этот код устанавливает стиль презентации модального контроллера на .pageSheet, что означает, что модальный                                                                                                         контроллер будет отображаться как страница на половину экрана в                                                                                                     вертикальном режиме и на всю ширину экрана в горизонтальном режиме.
+        detailCoffeeVC.modalPresentationStyle = .pageSheet
         detailCoffeeVC.preferredContentSize = CGSize(width: 0, height: 300)
         detailCoffeeVC.sheetPresentationController?.detents = [.custom(resolver: { _ in
             return 570
@@ -107,9 +99,12 @@ extension MainScreen{
             context.maximumDetentValue * 2
             })
         ]
-        detailCoffeeVC.sheetPresentationController?.prefersGrabberVisible = true
-        //self.navigationController?.pushViewController(detailCoffeeVC, animated: true)
+        detailCoffeeVC.sheetPresentationController?.prefersGrabberVisible = false
         present(detailCoffeeVC, animated: true)
+    }
+    
+    @objc func cancelButton(){
+        dismiss(animated: true)
     }
 }
 
