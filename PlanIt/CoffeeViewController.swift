@@ -20,8 +20,24 @@ class CoffeeViewController: UIViewController {
     let stackView: UIStackView = {
         let stack = UIStackView()
         stack.distribution = .fillEqually
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.spacing = 10
+        return stack
+    }()
+    let firstRowStackView: UIStackView = {
+        let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .fill
+        stack.distribution = .fillEqually
+        stack.spacing = 10
+        return stack
+    }()
+    let secondRowStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fillEqually
         stack.spacing = 10
         return stack
     }()
@@ -54,23 +70,27 @@ class CoffeeViewController: UIViewController {
     func stackViewSetupUI(){
         
         view.addSubview(stackView)
-      
+        
         for (index, coffeCup) in coffeCups.enumerated() {
-            if index == 0{
-                let imageView = UIImageView(image: coffeCup)
-                imageView.contentMode = .scaleAspectFit
-                stackView.addArrangedSubview(imageView)
+            let imageView = UIImageView(image: coffeCup)
+            imageView.contentMode = .scaleAspectFit
+            
+            if index < 5 {
+                firstRowStackView.addArrangedSubview(imageView)
+            } else {
+                secondRowStackView.addArrangedSubview(imageView)
             }
         }
         
+        stackView.addArrangedSubview(firstRowStackView)
+        stackView.addArrangedSubview(secondRowStackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80)
         ])
-        
-        
     }
     
     func setupUI(){
@@ -161,6 +181,7 @@ class CoffeeViewController: UIViewController {
         ])
     }
     
+    
     @objc func cancel(){
         dismiss(animated: true)
     }
@@ -175,13 +196,16 @@ extension CoffeeViewController: UIPickerViewDataSource{
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerCount.count
     }
-    
 }
 
 extension CoffeeViewController: UIPickerViewDelegate{
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return String(pickerCount[row])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
     }
 }
 
