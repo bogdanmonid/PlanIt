@@ -24,14 +24,12 @@ class StorageManager{
         }
     }
     
-    
     static func saveTask(task: ModelTask) { // создаем метод для сохранения записей
         
         var tasks = getTasks()
         
         tasks.append(task)
         UserDefaults.standard.setValue( try? JSONEncoder().encode(tasks), forKey: taskKey)  //кодируем данные и сохраняем их
-        
     }
     
     static func getTask(title: String) -> ModelTask?{ //находим нужную задачу

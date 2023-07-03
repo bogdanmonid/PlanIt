@@ -10,7 +10,6 @@
 		306467992A310AE300BAA0FC /* Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306467982A310AE300BAA0FC /* Shadows.swift */; };
 		3064679D2A34EAE200BAA0FC /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3064679C2A34EAE200BAA0FC /* StorageManager.swift */; };
 		306467A12A3B3DCA00BAA0FC /* CoffeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306467A02A3B3DCA00BAA0FC /* CoffeeViewController.swift */; };
-		306467A32A3B42AC00BAA0FC /* CoffeeUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306467A22A3B42AC00BAA0FC /* CoffeeUIView.swift */; };
 		30A22F722A24E328002D013C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A22F712A24E328002D013C /* CustomTableViewCell.swift */; };
 		30BD77492A1A8A1D00D8E72D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BD77482A1A8A1D00D8E72D /* AppDelegate.swift */; };
 		30BD774B2A1A8A1D00D8E72D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BD774A2A1A8A1D00D8E72D /* SceneDelegate.swift */; };
@@ -26,7 +25,6 @@
 		306467982A310AE300BAA0FC /* Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadows.swift; sourceTree = "<group>"; };
 		3064679C2A34EAE200BAA0FC /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		306467A02A3B3DCA00BAA0FC /* CoffeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeViewController.swift; sourceTree = "<group>"; };
-		306467A22A3B42AC00BAA0FC /* CoffeeUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeUIView.swift; sourceTree = "<group>"; };
 		30A22F712A24E328002D013C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		30BD77452A1A8A1D00D8E72D /* PlanIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlanIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30BD77482A1A8A1D00D8E72D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,7 +53,6 @@
 			isa = PBXGroup;
 			children = (
 				306467982A310AE300BAA0FC /* Shadows.swift */,
-				306467A22A3B42AC00BAA0FC /* CoffeeUIView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -191,7 +188,6 @@
 				306467992A310AE300BAA0FC /* Shadows.swift in Sources */,
 				30BD774B2A1A8A1D00D8E72D /* SceneDelegate.swift in Sources */,
 				306467A12A3B3DCA00BAA0FC /* CoffeeViewController.swift in Sources */,
-				306467A32A3B42AC00BAA0FC /* CoffeeUIView.swift in Sources */,
 				3064679D2A34EAE200BAA0FC /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

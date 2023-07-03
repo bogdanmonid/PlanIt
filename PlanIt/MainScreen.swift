@@ -14,10 +14,12 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableViewLabel: UITableView!
     @IBOutlet weak var coffeeButton: UIButton!
-    
+    @IBOutlet weak var haveANiceDay: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        haveANiceDay.isHidden = false
         
         view.backgroundColor = UIColor(named: "28313A")
         
@@ -90,7 +92,10 @@ extension MainScreen{
     @objc func presentCoffeeControl(){
         let detailCoffeeVC = CoffeeViewController()
         
-        detailCoffeeVC.modalPresentationStyle = .pageSheet
+        detailCoffeeVC.isModalInPresentation = true
+       
+        detailCoffeeVC.modalPresentationStyle = .automatic
+                                                  
         detailCoffeeVC.preferredContentSize = CGSize(width: 0, height: 300)
         detailCoffeeVC.sheetPresentationController?.detents = [.custom(resolver: { _ in
             return 570
@@ -101,6 +106,7 @@ extension MainScreen{
         ]
         detailCoffeeVC.sheetPresentationController?.prefersGrabberVisible = false
         present(detailCoffeeVC, animated: true)
+        haveANiceDay.isHidden = true
     }
     
     @objc func cancelButton(){

@@ -163,6 +163,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="coffeeButton" destination="8J1-9q-PlF" id="RcB-2P-SkO"/>
+                        <outlet property="haveANiceDay" destination="jhW-7U-qHW" id="UGe-Wu-xpq"/>
                         <outlet property="tableViewLabel" destination="VcY-Uk-BFP" id="6RK-CA-9KQ"/>
                     </connections>
                 </viewController>
