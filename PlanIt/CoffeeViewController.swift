@@ -20,29 +20,13 @@ class CoffeeViewController: UIViewController {
     let stackView: UIStackView = {
         let stack = UIStackView()
         stack.distribution = .fillEqually
-        stack.axis = .vertical
-        stack.alignment = .fill
-        stack.spacing = 10
-        return stack
-    }()
-    let firstRowStackView: UIStackView = {
-        let stack = UIStackView()
         stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        stack.spacing = 10
-        return stack
-    }()
-    let secondRowStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        stack.spacing = 10
+        stack.alignment = .center
+        stack.spacing = 15
         return stack
     }()
     
-    let pickerCount = Array(1...10)
+    let pickerCount = Array(0...10)
    
     let coffeCups: [UIImage] = [UIImage(named: "cup1")!,
                                 UIImage(named: "cup2")!,
@@ -64,33 +48,27 @@ class CoffeeViewController: UIViewController {
         picker.delegate = self
         
         setupUI()
-        stackViewSetupUI()
     }
     
-    func stackViewSetupUI(){
+    func stackViewSetupUI(with cup: Int){
         
-        view.addSubview(stackView)
+        let selectedImages = Array(coffeCups.prefix(cup))  // Создаем новый массив изображений, содержащий только выбранное количество изображений
         
-        for (index, coffeCup) in coffeCups.enumerated() {
-            let imageView = UIImageView(image: coffeCup)
-            imageView.contentMode = .scaleAspectFit
-            
-            if index < 5 {
-                firstRowStackView.addArrangedSubview(imageView)
-            } else {
-                secondRowStackView.addArrangedSubview(imageView)
-            }
+        for arrangedSubview in stackView.arrangedSubviews{
+            stackView.removeArrangedSubview(arrangedSubview)
+            arrangedSubview.removeFromSuperview()
         }
         
-        stackView.addArrangedSubview(firstRowStackView)
-        stackView.addArrangedSubview(secondRowStackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80)
-        ])
+        for image in selectedImages{
+            let imageView = UIImageView(image: image)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.contentMode = .scaleAspectFit
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalToConstant: 75),
+                imageView.heightAnchor.constraint(equalToConstant: 75)
+            ])
+            stackView.addArrangedSubview(imageView)
+        }
     }
     
     func setupUI(){
@@ -104,6 +82,9 @@ class CoffeeViewController: UIViewController {
         view.addSubview(ellipsForInfo)
         view.addSubview(informationButton)
         view.addSubview(stackView)
+        view.addSubview(stackView)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         ellipsForInfo.translatesAutoresizingMaskIntoConstraints = false
         ellipsForInfo.image = UIImage(named: "ellipsForInfo")
@@ -135,6 +116,10 @@ class CoffeeViewController: UIViewController {
         coffeeTitle.translatesAutoresizingMaskIntoConstraints = false
        
         NSLayoutConstraint.activate([
+            
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
             
             ellipsForInfo.widthAnchor.constraint(equalToConstant: 60),
             ellipsForInfo.heightAnchor.constraint(equalToConstant: 60),
@@ -181,7 +166,6 @@ class CoffeeViewController: UIViewController {
         ])
     }
     
-    
     @objc func cancel(){
         dismiss(animated: true)
     }
@@ -206,6 +190,8 @@ extension CoffeeViewController: UIPickerViewDelegate{
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
+        let selectedImageCount = row
+        stackViewSetupUI(with: selectedImageCount)
     }
 }
 
