@@ -9,26 +9,24 @@ import UIKit
 
 class CoffeeViewController: UIViewController {
     
-    let cancelButton = UIButton()
-    let coffeeTitle = UILabel()
-    let coffeeTitleView = UIView()
-    let coffeeCupImage = UIImageView()
-    let pickerView = UIView()
-    let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-    let informationButton = UIButton()
-    let ellipsForInfo = UIImageView()
-    let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.distribution = .equalCentering
-        stack.axis = .horizontal
-        stack.alignment = .center
-        stack.spacing = 15
-        return stack
+    private let cancelButton = UIButton()
+    private let coffeeTitle = UILabel()
+    private let coffeeTitleView = UIView()
+    private let coffeeCupImage = UIImageView()
+    private let pickerView = UIView()
+    private let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+    private let informationButton = UIButton()
+    private let ellipsForInfo = UIImageView()
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return collectionView
     }()
-    
-    let pickerCount = Array(0...10)
    
-    let coffeCups: [UIImage] = [UIImage(named: "cup1")!,
+    private let pickerCount = Array(0...10)
+   
+    private let coffeCups: [UIImage] = [UIImage(named: "cup1")!,
                                 UIImage(named: "cup2")!,
                                 UIImage(named: "cup3")!,
                                 UIImage(named: "cup4")!,
@@ -47,29 +45,37 @@ class CoffeeViewController: UIViewController {
         picker.dataSource = self
         picker.delegate = self
         
+        collectionView.register(CoffeeViewCell.self, forCellWithReuseIdentifier: CoffeeViewCell.identifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
         setupUI()
     }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        collectionView.frame = view.bounds
+//    }
     
-    func stackViewSetupUI(with cup: Int){
-        
-        let selectedImages = Array(coffeCups.prefix(cup))  // Создаем новый массив изображений, содержащий только выбранное количество изображений
-        
-        for arrangedSubview in stackView.arrangedSubviews{
-            stackView.removeArrangedSubview(arrangedSubview)
-            arrangedSubview.removeFromSuperview()
-        }
-        
-        for image in selectedImages{
-            let imageView = UIImageView(image: image)
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.contentMode = .scaleAspectFit
-            NSLayoutConstraint.activate([
-                imageView.widthAnchor.constraint(equalToConstant: 75),
-                imageView.heightAnchor.constraint(equalToConstant: 75)
-            ])
-            stackView.addArrangedSubview(imageView)
-        }
-    }
+//    func stackViewSetupUI(with cup: Int){
+//        
+//        let selectedImages = Array(coffeCups.prefix(cup))  // Создаем новый массив изображений, содержащий только выбранное количество изображений
+//        
+//        for arrangedSubview in stackView.arrangedSubviews{  //удаляем изображения
+//            stackView.removeArrangedSubview(arrangedSubview)
+//            arrangedSubview.removeFromSuperview()
+//        }
+//        
+//        for image in selectedImages{  // добавляем изображения
+//            let imageView = UIImageView(image: image)
+//            imageView.translatesAutoresizingMaskIntoConstraints = false
+//            imageView.contentMode = .scaleAspectFit
+//            NSLayoutConstraint.activate([
+//                imageView.widthAnchor.constraint(equalToConstant: 75),
+//                imageView.heightAnchor.constraint(equalToConstant: 75)
+//            ])
+//            stackView.addArrangedSubview(imageView)
+//        }
+//    }
     
     func setupUI(){
         
@@ -81,10 +87,10 @@ class CoffeeViewController: UIViewController {
         view.addSubview(picker)
         view.addSubview(ellipsForInfo)
         view.addSubview(informationButton)
-        view.addSubview(stackView)
-        view.addSubview(stackView)
+        view.addSubview(collectionView)
         
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = #colorLiteral(red: 0.2, green: 0.2431372549, blue: 0.2862745098, alpha: 1)
         
         ellipsForInfo.translatesAutoresizingMaskIntoConstraints = false
         ellipsForInfo.image = UIImage(named: "ellipsForInfo")
@@ -117,10 +123,13 @@ class CoffeeViewController: UIViewController {
        
         NSLayoutConstraint.activate([
             
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
-            
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -350),
+            collectionView.widthAnchor.constraint(equalToConstant: 50),
+            collectionView.heightAnchor.constraint(equalToConstant: 20),
+        
             ellipsForInfo.widthAnchor.constraint(equalToConstant: 60),
             ellipsForInfo.heightAnchor.constraint(equalToConstant: 60),
             ellipsForInfo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 13),
@@ -191,7 +200,25 @@ extension CoffeeViewController: UIPickerViewDelegate{
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         let selectedImageCount = row
-        stackViewSetupUI(with: selectedImageCount)
+        //stackViewSetupUI(with: selectedImageCount)
     }
 }
 
+extension CoffeeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        coffeCups.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoffeeViewCell.identifier, for: indexPath) as! CoffeeViewCell
+        cell.imageView.image = coffeCups[indexPath.item]
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width / 5 - 10
+        let height = collectionView.frame.height / 5 + 30
+        return CGSize(width: width, height: height)
+    }
+}
