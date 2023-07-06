@@ -19,7 +19,7 @@ class CoffeeViewController: UIViewController {
     let ellipsForInfo = UIImageView()
     let stackView: UIStackView = {
         let stack = UIStackView()
-        stack.distribution = .fillEqually
+        stack.distribution = .equalCentering
         stack.axis = .horizontal
         stack.alignment = .center
         stack.spacing = 15

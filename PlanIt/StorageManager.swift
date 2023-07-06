@@ -70,8 +70,6 @@ class StorageManager{
     //            UserDefaults.standard.setValue( try? JSONEncoder().encode(tasks), forKey: taskKey)  //кодируем данные и сохраняем их
     //        }
     //    }
-    //
-    
     
     //    static func saveTask(task: ModelTask) { // создаем метод для сохранения записей
     //        //if - когда есть данные по этому ключу
