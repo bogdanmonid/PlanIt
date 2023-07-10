@@ -23,9 +23,8 @@ class CoffeeViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
-   
     private let pickerCount = Array(0...10)
-   
+    private var selectedImageCount = 0
     private let coffeCups: [UIImage] = [UIImage(named: "cup1")!,
                                 UIImage(named: "cup2")!,
                                 UIImage(named: "cup3")!,
@@ -51,31 +50,6 @@ class CoffeeViewController: UIViewController {
         
         setupUI()
     }
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        collectionView.frame = view.bounds
-//    }
-    
-//    func stackViewSetupUI(with cup: Int){
-//        
-//        let selectedImages = Array(coffeCups.prefix(cup))  // Создаем новый массив изображений, содержащий только выбранное количество изображений
-//        
-//        for arrangedSubview in stackView.arrangedSubviews{  //удаляем изображения
-//            stackView.removeArrangedSubview(arrangedSubview)
-//            arrangedSubview.removeFromSuperview()
-//        }
-//        
-//        for image in selectedImages{  // добавляем изображения
-//            let imageView = UIImageView(image: image)
-//            imageView.translatesAutoresizingMaskIntoConstraints = false
-//            imageView.contentMode = .scaleAspectFit
-//            NSLayoutConstraint.activate([
-//                imageView.widthAnchor.constraint(equalToConstant: 75),
-//                imageView.heightAnchor.constraint(equalToConstant: 75)
-//            ])
-//            stackView.addArrangedSubview(imageView)
-//        }
-//    }
     
     func setupUI(){
         
@@ -194,25 +168,24 @@ extension CoffeeViewController: UIPickerViewDataSource{
 extension CoffeeViewController: UIPickerViewDelegate{
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return String(pickerCount[row])
+        return "\(row)"
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        let selectedImageCount = row
-        //stackViewSetupUI(with: selectedImageCount)
+        selectedImageCount = row 
+        collectionView.reloadData()
     }
 }
 
 extension CoffeeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        coffeCups.count
+       return selectedImageCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoffeeViewCell.identifier, for: indexPath) as! CoffeeViewCell
-        cell.imageView.image = coffeCups[indexPath.item]
+        cell.imageView.image = coffeCups[indexPath.row]
         return cell
     }
     
