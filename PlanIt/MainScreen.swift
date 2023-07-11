@@ -34,10 +34,13 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.label.text = tasks[indexPath.row].titleTask
         cell.customDelegate = self
+
         tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
         return cell
     }
+    
+
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{

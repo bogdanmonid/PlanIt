@@ -10,11 +10,24 @@ import Foundation
 
 class StorageManager{
     
-    static let taskKey: String = "taskKey"   // ключ
+    private let taskKey: String = "taskKey"   // ключ
+    private let coffeeCupKey: String = "coffeeCupKey"
+    private let checkMarkKey: String = "checkMarkKey"
+    private let userDefaults = UserDefaults.standard
+    static let shared = StorageManager()
+//    var isSelected: Bool{
+//        get{
+//            return userDefaults.bool(forKey: chekMarkKey)
+//        }
+//        set{
+//            userDefaults.set(newValue, forKey: chekMarkKey)
+//            userDefaults.synchronize()
+//        }
+//    }
     
     static func getTasks() -> [ModelTask]{
         
-        if let data = UserDefaults.standard.value(forKey: taskKey) as? Data,
+        if let data = UserDefaults.standard.value(forKey: shared.taskKey) as? Data,
            let tasks = try? JSONDecoder().decode([ModelTask].self, from: data){
             return tasks
         } else {
@@ -29,7 +42,7 @@ class StorageManager{
         var tasks = getTasks()
         
         tasks.append(task)
-        UserDefaults.standard.setValue( try? JSONEncoder().encode(tasks), forKey: taskKey)  //кодируем данные и сохраняем их
+        UserDefaults.standard.setValue( try? JSONEncoder().encode(tasks), forKey: shared.taskKey)  //кодируем данные и сохраняем их
     }
     
     static func getTask(title: String) -> ModelTask?{ //находим нужную задачу
@@ -49,10 +62,27 @@ class StorageManager{
         let taskIndex = tasks.firstIndex(where: { $0.id == task.id }) // получаем индекс задачи, которую отредактировали
         tasks[taskIndex!].titleTask = task.titleTask  // перезаписываем задачу. [taskIndex!] ведет к задаче, которую отредактировали. заменяем старые данные на новые
         tasks[taskIndex!].descriptionTask = task.descriptionTask
-        UserDefaults.standard.setValue(try? JSONEncoder().encode(tasks), forKey: taskKey) //кодируем данные и сохраняем
+        UserDefaults.standard.setValue(try? JSONEncoder().encode(tasks), forKey: shared.taskKey) //кодируем данные и сохраняем
     }
     
-    //
+    static func saveCup(_ cup: Int){
+        UserDefaults.standard.set(cup, forKey: shared.coffeeCupKey)
+    }
+    
+    static func loadCup() -> Int?{
+        UserDefaults.standard.value(forKey: shared.coffeeCupKey) as? Int 
+    }
+//    
+//    static func saveCheckMark(isEdit: Bool, forRow row: Int){
+//        UserDefaults.standard.set(isEdit, forKey: shared.checkMarkKey)
+//    }
+//
+//    static func loadCheckMark(forRow row: Int) -> Bool{
+//       return UserDefaults.standard.bool(forKey: shared.checkMarkKey)
+//    }
+    
+    
+    
     //    static func saveTask(task: ModelTask) { // создаем метод для сохранения записей
     //        //if - когда есть данные по этому ключу
     //        var tasks = getTasks()

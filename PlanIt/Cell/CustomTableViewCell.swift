@@ -14,6 +14,8 @@ protocol CustomTableViewCellDelegate {
 class CustomTableViewCell: UITableViewCell {
     
     var customDelegate: CustomTableViewCellDelegate?
+    var checkMarkSelected: Bool = false
+   
     
     @IBOutlet weak var checkMarkLabel: UIButton!
     @IBOutlet weak var pencilLabel: UIButton!
@@ -29,7 +31,10 @@ class CustomTableViewCell: UITableViewCell {
         
         checkMarkLabel.setImage(UIImage(named: "buttonImage"), for: .normal)
         checkMarkLabel.setImage(UIImage(named: "checkMark"), for: .selected)
-        checkMarkLabel.tintColor = .clear
+        checkMarkLabel.tintColor = .placeholderText
+        checkMarkSelected = UserDefaults.standard.bool(forKey: "UserDefaults")
+        updateButtonState()
+        
     }
     
     @IBAction func editAction(_ sender: UIButton) {
@@ -37,6 +42,16 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @IBAction func checkAction(_ sender: UIButton) {
-        checkMarkLabel.isSelected = !checkMarkLabel.isSelected
+        checkMarkSelected = !checkMarkSelected
+        UserDefaults.standard.set(checkMarkSelected, forKey: "UserDefaults")
+        updateButtonState()
+    }
+    
+    func updateButtonState(){
+        if checkMarkSelected{
+            checkMarkLabel.isSelected = true
+        }else{
+            checkMarkLabel.isSelected = false
+        }
     }
 }

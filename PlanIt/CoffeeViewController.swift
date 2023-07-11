@@ -14,7 +14,7 @@ class CoffeeViewController: UIViewController {
     private let coffeeTitleView = UIView()
     private let coffeeCupImage = UIImageView()
     private let pickerView = UIView()
-    private let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+    private let picker = UIPickerView()
     private let informationButton = UIButton()
     private let ellipsForInfo = UIImageView()
     private let collectionView: UICollectionView = {
@@ -24,7 +24,7 @@ class CoffeeViewController: UIViewController {
         return collectionView
     }()
     private let pickerCount = Array(0...10)
-    private var selectedImageCount = 0
+    private var selectedCount = 0
     private let coffeCups: [UIImage] = [UIImage(named: "cup1")!,
                                 UIImage(named: "cup2")!,
                                 UIImage(named: "cup3")!,
@@ -35,7 +35,7 @@ class CoffeeViewController: UIViewController {
                                 UIImage(named: "cup8")!,
                                 UIImage(named: "cup9")!,
                                 UIImage(named: "cup10")!]
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,6 +49,14 @@ class CoffeeViewController: UIViewController {
         collectionView.dataSource = self
         
         setupUI()
+        savingSelectedCups()
+    }
+    
+    func savingSelectedCups(){
+        if let saveChoiceCount = StorageManager.loadCup(){
+            selectedCount = saveChoiceCount
+            picker.selectRow(selectedCount, inComponent: 0, animated: true)
+        }
     }
     
     func setupUI(){
@@ -81,6 +89,8 @@ class CoffeeViewController: UIViewController {
         pickerView.alpha = 0.90
         pickerView.translatesAutoresizingMaskIntoConstraints = false
         pickerView.layer.cornerRadius = 10
+        
+        picker.translatesAutoresizingMaskIntoConstraints = false
         
         coffeeTitleView.backgroundColor = #colorLiteral(red: 0.1568627451, green: 0.1921568627, blue: 0.2274509804, alpha: 1)
         coffeeTitleView.translatesAutoresizingMaskIntoConstraints = false
@@ -115,10 +125,9 @@ class CoffeeViewController: UIViewController {
             informationButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             picker.widthAnchor.constraint(equalToConstant: 100),
-            picker.heightAnchor.constraint(equalToConstant: 100),
             picker.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 50),
             picker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 50),
-            picker.heightAnchor.constraint(equalTo: view.heightAnchor, constant: -450),
+            picker.heightAnchor.constraint(equalTo: view.heightAnchor, constant: -475),
             
             coffeeCupImage.widthAnchor.constraint(equalToConstant: 100),
             coffeeCupImage.heightAnchor.constraint(equalToConstant: 120),
@@ -154,39 +163,38 @@ class CoffeeViewController: UIViewController {
     }
 }
 
-extension CoffeeViewController: UIPickerViewDataSource{
+extension CoffeeViewController: UIPickerViewDataSource, UIPickerViewDelegate{
       
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+       return 1
     }
      
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerCount.count
+        pickerCount.count
     }
-}
-
-extension CoffeeViewController: UIPickerViewDelegate{
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row)"
+       return "\(row)"
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedImageCount = row 
+        selectedCount = row
         collectionView.reloadData()
+        
+        StorageManager.saveCup(selectedCount)
     }
 }
 
 extension CoffeeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return selectedImageCount
+        return selectedCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoffeeViewCell.identifier, for: indexPath) as! CoffeeViewCell
-        cell.imageView.image = coffeCups[indexPath.row]
-        return cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoffeeViewCell.identifier, for: indexPath) as? CoffeeViewCell
+        cell?.imageView.image = coffeCups[indexPath.row]
+        return cell!
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
