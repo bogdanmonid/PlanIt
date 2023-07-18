@@ -41,8 +41,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="373" placeholderIntrinsicHeight="57" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ka-d0-dp2">
-                                                    <rect key="frame" x="10" y="5" width="373" height="55"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" placeholderIntrinsicWidth="373" placeholderIntrinsicHeight="57" insetsLayoutMarginsFromSafeArea="NO" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ka-d0-dp2">
+                                                    <rect key="frame" x="10" y="4" width="373" height="57"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.15686274509803921" green="0.19215686274509802" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="go to store">
@@ -55,6 +56,14 @@
                                                     </attributedString>
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="0.0"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hdi-BL-NGt">
+                                                    <rect key="frame" x="10" y="4" width="373" height="57"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1tE-PA-Tkz">
                                                     <rect key="frame" x="338" y="15" width="35" height="35"/>
@@ -84,12 +93,8 @@
                                             <color key="backgroundColor" red="0.20000000000000001" green="0.24313725489999999" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Dh1-TS-meC" secondAttribute="bottom" constant="4" id="56d-Fa-YyG"/>
-                                                <constraint firstAttribute="trailing" secondItem="2ka-d0-dp2" secondAttribute="trailing" constant="10" id="HQv-us-gWt"/>
-                                                <constraint firstItem="2ka-d0-dp2" firstAttribute="leading" secondItem="iLH-ba-nHs" secondAttribute="leading" constant="10" id="LXP-eR-pP0"/>
                                                 <constraint firstItem="Dh1-TS-meC" firstAttribute="top" secondItem="iLH-ba-nHs" secondAttribute="topMargin" constant="4" id="iNM-D9-fVl"/>
                                                 <constraint firstItem="Dh1-TS-meC" firstAttribute="leading" secondItem="iLH-ba-nHs" secondAttribute="leadingMargin" id="k9f-t7-UV0"/>
-                                                <constraint firstItem="2ka-d0-dp2" firstAttribute="top" secondItem="iLH-ba-nHs" secondAttribute="top" constant="5" id="lbl-h1-DQZ"/>
-                                                <constraint firstAttribute="bottom" secondItem="2ka-d0-dp2" secondAttribute="bottom" constant="5" id="owK-ov-jds"/>
                                                 <constraint firstItem="1tE-PA-Tkz" firstAttribute="top" secondItem="iLH-ba-nHs" secondAttribute="topMargin" constant="4" id="spg-ue-9QH"/>
                                                 <constraint firstItem="1tE-PA-Tkz" firstAttribute="trailing" secondItem="iLH-ba-nHs" secondAttribute="trailingMargin" id="t8D-zk-STh"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="1tE-PA-Tkz" secondAttribute="bottom" constant="4" id="wng-jk-jgJ"/>
@@ -98,8 +103,9 @@
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.24313725489999999" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="checkMarkLabel" destination="Dh1-TS-meC" id="o8B-jd-gIw"/>
-                                            <outlet property="label" destination="2ka-d0-dp2" id="8jq-Uc-vhu"/>
+                                            <outlet property="descriptionLabel" destination="hdi-BL-NGt" id="zLu-Re-On4"/>
                                             <outlet property="pencilLabel" destination="1tE-PA-Tkz" id="7jy-Hl-Vps"/>
+                                            <outlet property="titleLabel" destination="2ka-d0-dp2" id="8jq-Uc-vhu"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -169,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VT4-OE-vrL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11" y="-480"/>
+            <point key="canvasLocation" x="-11.450381679389313" y="-480.28169014084511"/>
         </scene>
         <!--Notes View Controller-->
         <scene sceneID="se4-0E-oIc">

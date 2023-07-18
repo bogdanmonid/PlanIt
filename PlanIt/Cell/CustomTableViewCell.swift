@@ -15,16 +15,29 @@ class CustomTableViewCell: UITableViewCell {
     
     var customDelegate: CustomTableViewCellDelegate?
     var checkMarkSelected: Bool = false
-   
+    var modelData: ModelTask? {
+        didSet{
+            guard let modelData = modelData else {return}
+            self.titleLabel.text = modelData.titleTask
+            self.descriptionLabel.text = modelData.descriptionTask
+        }
+    }
     
     @IBOutlet weak var checkMarkLabel: UIButton!
     @IBOutlet weak var pencilLabel: UIButton!
-    @IBOutlet weak var label: UILabel!{
+    @IBOutlet weak var titleLabel: UILabel!{
         didSet{
-            label.layer.masksToBounds = true
-            label.layer.cornerRadius = 12
+            titleLabel.layer.masksToBounds = true
+            titleLabel.layer.cornerRadius = 12
         }
     }
+    @IBOutlet weak var descriptionLabel: UILabel!{
+        didSet{
+            descriptionLabel.layer.masksToBounds = true
+            descriptionLabel.layer.cornerRadius = 12
+        }
+    }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,7 +51,7 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @IBAction func editAction(_ sender: UIButton) {
-        customDelegate?.editingTask(title: label.text ?? "")
+        customDelegate?.editingTask(title: titleLabel.text ?? "")
     }
     
     @IBAction func checkAction(_ sender: UIButton) {
@@ -53,5 +66,14 @@ class CustomTableViewCell: UITableViewCell {
         }else{
             checkMarkLabel.isSelected = false
         }
+    }
+    
+    func animate(){
+        UIView.animate(withDuration: 1,
+                       delay: 0.1,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseIn,
+                       animations: {self.contentView.layoutIfNeeded()})
     }
 }

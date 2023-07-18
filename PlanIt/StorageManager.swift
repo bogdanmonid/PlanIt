@@ -50,7 +50,7 @@ class StorageManager{
         let tasks = getTasks() // получаем задачи
         
         let findTask = tasks.first { $0.titleTask == title } // получаем нужную задачу по заголовку. Функция first перебирает массив, пока не найдет true в условии
-
+       
         return findTask // опционалная, т.к объекта может и не быть и вернется nil
     }
     

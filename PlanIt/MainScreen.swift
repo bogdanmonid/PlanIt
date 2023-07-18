@@ -11,6 +11,7 @@ import UIKit
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tasks = StorageManager.getTasks()
+    var selectedIndex: IndexPath = IndexPath(row: 0, section: 0)
     
     @IBOutlet weak var tableViewLabel: UITableView!
     @IBOutlet weak var coffeeButton: UIButton!
@@ -24,6 +25,13 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         view.backgroundColor = UIColor(named: "28313A")
         
         coffeeButton.addTarget(self, action: #selector(presentCoffeeControl), for: .touchUpInside)
+        
+        //tableViewLabel.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if selectedIndex == indexPath{return 200}
+        return 60
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -32,14 +40,22 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.label.text = tasks[indexPath.row].titleTask
+        cell.titleLabel.text = tasks[indexPath.row].titleTask
+        cell.descriptionLabel.text = tasks[indexPath.row].descriptionTask
         cell.customDelegate = self
-
-        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        cell.selectionStyle = .none
+        cell.animate()
+      //  tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndex = indexPath
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [selectedIndex], with: .none)
+        tableView.endUpdates()
+    }
 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
