@@ -27,16 +27,21 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var pencilLabel: UIButton!
     @IBOutlet weak var titleLabel: UILabel!{
         didSet{
-            titleLabel.layer.masksToBounds = true
-            titleLabel.layer.cornerRadius = 12
+            let maskPath = UIBezierPath(roundedRect: titleLabel.bounds, byRoundingCorners: [.topLeft, .topRight, .bottomLeft, .bottomRight], cornerRadii: CGSize(width: 12, height: 12))
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = maskPath.cgPath
+            titleLabel.layer.mask = maskLayer
         }
     }
     @IBOutlet weak var descriptionLabel: UILabel!{
         didSet{
-            descriptionLabel.layer.masksToBounds = true
-            descriptionLabel.layer.cornerRadius = 12
+            let maskPath = UIBezierPath(roundedRect: descriptionLabel.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: 12, height: 12))
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = maskPath.cgPath
+            descriptionLabel.layer.mask = maskLayer
         }
     }
+      
     
     
     override func awakeFromNib() {
@@ -47,6 +52,7 @@ class CustomTableViewCell: UITableViewCell {
         checkMarkLabel.tintColor = .placeholderText
         checkMarkSelected = UserDefaults.standard.bool(forKey: "UserDefaults")
         updateButtonState()
+        //descriptionLabel.isHidden = true
         
     }
     
@@ -70,7 +76,7 @@ class CustomTableViewCell: UITableViewCell {
     
     func animate(){
         UIView.animate(withDuration: 1,
-                       delay: 0.1,
+                       delay: 1,
                        usingSpringWithDamping: 1,
                        initialSpringVelocity: 1,
                        options: .curveEaseIn,

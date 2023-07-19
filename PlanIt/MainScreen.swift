@@ -12,7 +12,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tasks = StorageManager.getTasks()
     var selectedIndex: IndexPath = IndexPath(row: 0, section: 0)
-    
+   
     @IBOutlet weak var tableViewLabel: UITableView!
     @IBOutlet weak var coffeeButton: UIButton!
     @IBOutlet weak var haveANiceDay: UILabel!
@@ -20,18 +20,30 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+      
+        
         haveANiceDay.isHidden = false
         
         view.backgroundColor = UIColor(named: "28313A")
         
         coffeeButton.addTarget(self, action: #selector(presentCoffeeControl), for: .touchUpInside)
         
+        tableViewLabel.separatorInset = UIEdgeInsets(top: 50, left: 0, bottom: 50, right: 0)
+        
         //tableViewLabel.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if selectedIndex == indexPath{return 200}
+        if selectedIndex == indexPath { return 200 }
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 100
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,6 +57,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.customDelegate = self
         cell.selectionStyle = .none
         cell.animate()
+        cell.descriptionLabel.isHidden = false
       //  tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
         return cell
@@ -56,6 +69,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.reloadRows(at: [selectedIndex], with: .none)
         tableView.endUpdates()
     }
+    
+   
 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
