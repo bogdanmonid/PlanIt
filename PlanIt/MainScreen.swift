@@ -11,7 +11,8 @@ import UIKit
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tasks = StorageManager.getTasks()
-    var selectedIndex: IndexPath = IndexPath(row: 0, section: 0)
+    var selectedIndex = -1
+    var isCollapce = false
    
     @IBOutlet weak var tableViewLabel: UITableView!
     @IBOutlet weak var coffeeButton: UIButton!
@@ -20,8 +21,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      
-        
         haveANiceDay.isHidden = false
         
         view.backgroundColor = UIColor(named: "28313A")
@@ -29,17 +28,16 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         coffeeButton.addTarget(self, action: #selector(presentCoffeeControl), for: .touchUpInside)
         
         tableViewLabel.separatorInset = UIEdgeInsets(top: 50, left: 0, bottom: 50, right: 0)
-        
-        //tableViewLabel.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableViewLabel.estimatedRowHeight = 200
+        tableViewLabel.rowHeight = UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if selectedIndex == indexPath { return 200 }
-        return 60
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        if self.selectedIndex == indexPath.row && isCollapce == true{
+            return 200
+        }else{
+            return 60
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -57,18 +55,27 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.customDelegate = self
         cell.selectionStyle = .none
         cell.animate()
-        cell.descriptionLabel.isHidden = false
+       // cell.descriptionLabel.isHidden = true
       //  tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndex = indexPath
-        tableView.beginUpdates()
-        tableView.reloadRows(at: [selectedIndex], with: .none)
-        tableView.endUpdates()
-    }
+        tableView.deselectRow(at: indexPath, animated: true)
+        if selectedIndex == indexPath.row{
+            if self.isCollapce == false{
+                self.isCollapce = true
+            }else{
+                self.isCollapce = false
+            }
+        }else{
+                self.isCollapce = true
+            }
+            self.selectedIndex = indexPath.row
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    
     
    
 
@@ -132,7 +139,7 @@ extension MainScreen{
                                                   
         detailCoffeeVC.preferredContentSize = CGSize(width: 0, height: 300)
         detailCoffeeVC.sheetPresentationController?.detents = [.custom(resolver: { _ in
-            return 570
+            return 578
         }),
             .custom(resolver: { context in
             context.maximumDetentValue * 2

@@ -13,6 +13,7 @@ protocol CustomTableViewCellDelegate {
 
 class CustomTableViewCell: UITableViewCell {
     
+   
     var customDelegate: CustomTableViewCellDelegate?
     var checkMarkSelected: Bool = false
     var modelData: ModelTask? {
@@ -35,7 +36,7 @@ class CustomTableViewCell: UITableViewCell {
     }
     @IBOutlet weak var descriptionLabel: UILabel!{
         didSet{
-            let maskPath = UIBezierPath(roundedRect: descriptionLabel.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: 12, height: 12))
+            let maskPath = UIBezierPath(roundedRect: descriptionLabel.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 12))
             let maskLayer = CAShapeLayer()
             maskLayer.path = maskPath.cgPath
             descriptionLabel.layer.mask = maskLayer
@@ -52,6 +53,7 @@ class CustomTableViewCell: UITableViewCell {
         checkMarkLabel.tintColor = .placeholderText
         checkMarkSelected = UserDefaults.standard.bool(forKey: "UserDefaults")
         updateButtonState()
+        //titleLabel.contentEdgeInsets = UIEdgeInsets()
         //descriptionLabel.isHidden = true
         
     }
