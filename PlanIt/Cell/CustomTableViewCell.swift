@@ -20,7 +20,7 @@ class CustomTableViewCell: UITableViewCell {
         didSet{
             guard let modelData = modelData else {return}
             self.titleLabel.text = modelData.titleTask
-            self.descriptionLabel.text = modelData.descriptionTask
+            self.descriptionTextViewLabel.text = modelData.descriptionTask
         }
     }
     
@@ -34,16 +34,12 @@ class CustomTableViewCell: UITableViewCell {
             titleLabel.layer.mask = maskLayer
         }
     }
-    @IBOutlet weak var descriptionLabel: UILabel!{
+      
+    @IBOutlet weak var descriptionTextViewLabel: UITextView!{
         didSet{
-            let maskPath = UIBezierPath(roundedRect: descriptionLabel.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft, .topRight], cornerRadii: CGSize(width: 12, height: 12))
-            let maskLayer = CAShapeLayer()
-            maskLayer.path = maskPath.cgPath
-            descriptionLabel.layer.mask = maskLayer
+            descriptionTextViewLabel.layer.cornerRadius = 12
         }
     }
-      
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -53,9 +49,6 @@ class CustomTableViewCell: UITableViewCell {
         checkMarkLabel.tintColor = .placeholderText
         checkMarkSelected = UserDefaults.standard.bool(forKey: "UserDefaults")
         updateButtonState()
-        //titleLabel.contentEdgeInsets = UIEdgeInsets()
-        //descriptionLabel.isHidden = true
-        
     }
     
     @IBAction func editAction(_ sender: UIButton) {
@@ -77,8 +70,8 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     func animate(){
-        UIView.animate(withDuration: 1,
-                       delay: 1,
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.8,
                        usingSpringWithDamping: 1,
                        initialSpringVelocity: 1,
                        options: .curveEaseIn,

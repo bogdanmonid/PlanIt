@@ -14,6 +14,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var selectedIndex = -1
     var isCollapce = false
    
+   
     @IBOutlet weak var tableViewLabel: UITableView!
     @IBOutlet weak var coffeeButton: UIButton!
     @IBOutlet weak var haveANiceDay: UILabel!
@@ -45,18 +46,21 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks.count
+       
+            return tasks.count
+     
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+      //  tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.titleLabel.text = tasks[indexPath.row].titleTask
-        cell.descriptionLabel.text = tasks[indexPath.row].descriptionTask
+        cell.descriptionTextViewLabel.text = tasks[indexPath.row].descriptionTask
         cell.customDelegate = self
         cell.selectionStyle = .none
         cell.animate()
        // cell.descriptionLabel.isHidden = true
-      //  tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        
         
         return cell
     }
@@ -75,11 +79,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
             self.selectedIndex = indexPath.row
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-    
-    
-   
 
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             tableView.beginUpdates()
@@ -99,10 +99,12 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 extension MainScreen: NotesViewControllerDelegate{
     func completedCreateTask(data: ModelTask, isEdit: Bool) {
-        
         if isEdit {    // если true, то редактируем задачу
-            StorageManager.replaceTask(task: data)
-            self.tasks = StorageManager.getTasks()
+            if let index = tasks.firstIndex(where: { $0.id == data.id }){
+                tasks.remove(at: index)
+                tasks.insert(data, at: 0)
+                StorageManager.replaceTask(task: data)
+            }
         } else {   // если false, то добавляем новую задачу
             tasks.insert(data, at: 0)
             save(data: data)
@@ -111,7 +113,6 @@ extension MainScreen: NotesViewControllerDelegate{
     }
     
     func save(data: ModelTask){
-        
         DispatchQueue.global().async {
             StorageManager.saveTask(task: data)
         }

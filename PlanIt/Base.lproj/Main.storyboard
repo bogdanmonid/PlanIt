@@ -83,15 +83,14 @@
                                                         <action selector="checkAction:" destination="bO1-Sz-K0K" eventType="touchUpInside" id="jfx-CK-NnQ"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" text="Description" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hdi-BL-NGt">
-                                                    <rect key="frame" x="10" y="66" width="373" height="133"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Description" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pk7-xK-7cw">
+                                                    <rect key="frame" x="10" y="65" width="373" height="135"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.2082061768" green="0.24951103329999999" blue="0.29244518279999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
-                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
-                                                    <color key="textColor" red="0.81176470588235294" green="0.81176470588235294" blue="0.81176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <color key="textColor" red="0.81176470590000005" green="0.81176470590000005" blue="0.81176470590000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" name="Verdana-Italic" family="Verdana" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                             </subviews>
                                             <color key="backgroundColor" red="0.20000000000000001" green="0.24313725489999999" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -108,7 +107,7 @@
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.24313725489999999" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="checkMarkLabel" destination="Dh1-TS-meC" id="o8B-jd-gIw"/>
-                                            <outlet property="descriptionLabel" destination="hdi-BL-NGt" id="eG2-Lg-hfr"/>
+                                            <outlet property="descriptionTextViewLabel" destination="pk7-xK-7cw" id="AWq-cN-vtS"/>
                                             <outlet property="pencilLabel" destination="1tE-PA-Tkz" id="7jy-Hl-Vps"/>
                                             <outlet property="titleLabel" destination="2ka-d0-dp2" id="8jq-Uc-vhu"/>
                                         </connections>
@@ -180,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VT4-OE-vrL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5" y="-480"/>
+            <point key="canvasLocation" x="3.8167938931297707" y="-480.28169014084511"/>
         </scene>
         <!--Notes View Controller-->
         <scene sceneID="se4-0E-oIc">
