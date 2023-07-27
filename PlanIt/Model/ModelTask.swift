@@ -13,4 +13,5 @@ struct ModelTask: Codable, Equatable{
     var id: Double
     var titleTask: String
     var descriptionTask: String
+    var isDone: Bool = false
 }

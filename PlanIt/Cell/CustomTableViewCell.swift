@@ -13,9 +13,7 @@ protocol CustomTableViewCellDelegate {
 
 class CustomTableViewCell: UITableViewCell {
     
-   
     var customDelegate: CustomTableViewCellDelegate?
-    var checkMarkSelected: Bool = false
     var modelData: ModelTask? {
         didSet{
             guard let modelData = modelData else {return}
@@ -43,30 +41,17 @@ class CustomTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        checkMarkLabel.setImage(UIImage(named: "buttonImage"), for: .normal)
-        checkMarkLabel.setImage(UIImage(named: "checkMark"), for: .selected)
+//
+//        checkMarkLabel.setImage(UIImage(named: "buttonImage"), for: .normal)
+//        checkMarkLabel.setImage(UIImage(named: "checkMark"), for: .selected)
         checkMarkLabel.tintColor = .placeholderText
-        checkMarkSelected = UserDefaults.standard.bool(forKey: "UserDefaults")
-        updateButtonState()
+       
+      
+       
     }
     
     @IBAction func editAction(_ sender: UIButton) {
         customDelegate?.editingTask(title: titleLabel.text ?? "")
-    }
-    
-    @IBAction func checkAction(_ sender: UIButton) {
-        checkMarkSelected = !checkMarkSelected
-        UserDefaults.standard.set(checkMarkSelected, forKey: "UserDefaults")
-        updateButtonState()
-    }
-    
-    func updateButtonState(){
-        if checkMarkSelected{
-            checkMarkLabel.isSelected = true
-        }else{
-            checkMarkLabel.isSelected = false
-        }
     }
     
     func animate(){

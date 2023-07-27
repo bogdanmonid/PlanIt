@@ -10,20 +10,11 @@ import Foundation
 
 class StorageManager{
     
-    private let taskKey: String = "taskKey"   // ключ
+    let taskKey: String = "taskKey"   // ключ
     private let coffeeCupKey: String = "coffeeCupKey"
     private let checkMarkKey: String = "checkMarkKey"
     private let userDefaults = UserDefaults.standard
     static let shared = StorageManager()
-//    var isSelected: Bool{
-//        get{
-//            return userDefaults.bool(forKey: chekMarkKey)
-//        }
-//        set{
-//            userDefaults.set(newValue, forKey: chekMarkKey)
-//            userDefaults.synchronize()
-//        }
-//    }
     
     static func getTasks() -> [ModelTask]{
         
@@ -32,13 +23,11 @@ class StorageManager{
             return tasks
         } else {
             let tasks = [ModelTask]()
-            
             return tasks
         }
     }
     
     static func saveTask(task: ModelTask) { // создаем метод для сохранения записей
-        
         var tasks = getTasks()
         
         tasks.append(task)
@@ -46,25 +35,30 @@ class StorageManager{
     }
     
     static func getTask(title: String) -> ModelTask?{ //находим нужную задачу
-        
         let tasks = getTasks() // получаем задачи
-        
         let findTask = tasks.first { $0.titleTask == title } // получаем нужную задачу по заголовку. Функция first перебирает массив, пока не найдет true в условии
        
         return findTask // опционалная, т.к объекта может и не быть и вернется nil
     }
     
     static func replaceTask(task: ModelTask){   // принимаем и подменяем задачу
-        
         var tasks = getTasks()
         
-        let findTask = tasks.first { $0.id == task.id} // так же находим задачу, только параметр пойска уже id
+       // let findTask = tasks.first { $0.id == task.id} // так же находим задачу, только параметр пойска уже id
         let taskIndex = tasks.firstIndex(where: { $0.id == task.id }) // получаем индекс задачи, которую отредактировали
         tasks[taskIndex!].titleTask = task.titleTask  // перезаписываем задачу. [taskIndex!] ведет к задаче, которую отредактировали. заменяем старые данные на новые
         tasks[taskIndex!].descriptionTask = task.descriptionTask
         UserDefaults.standard.setValue(try? JSONEncoder().encode(tasks), forKey: shared.taskKey) //кодируем данные и сохраняем
     }
     
+    static func removeTasks(atIndex index: Int){
+        guard var tasks = UserDefaults.standard.array(forKey: shared.taskKey) as? [String] else {return}
+        
+        tasks.remove(at: index)
+        
+        UserDefaults.standard.set(tasks, forKey: shared.taskKey)
+    }
+
     static func saveCup(_ cup: Int){
         UserDefaults.standard.set(cup, forKey: shared.coffeeCupKey)
     }
@@ -72,12 +66,12 @@ class StorageManager{
     static func loadCup() -> Int?{
         UserDefaults.standard.value(forKey: shared.coffeeCupKey) as? Int 
     }
-//    
-//    static func saveCheckMark(isEdit: Bool, forRow row: Int){
-//        UserDefaults.standard.set(isEdit, forKey: shared.checkMarkKey)
+    
+//    static func saveCheckMark(isDone: Bool){
+//        UserDefaults.standard.set(isDone, forKey: shared.checkMarkKey)
 //    }
 //
-//    static func loadCheckMark(forRow row: Int) -> Bool{
+//    static func loadCheckMark() -> Bool{
 //       return UserDefaults.standard.bool(forKey: shared.checkMarkKey)
 //    }
     

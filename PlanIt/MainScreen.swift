@@ -13,6 +13,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var tasks = StorageManager.getTasks()
     var selectedIndex = -1
     var isCollapce = false
+    var key: String = "key"
    
    
     @IBOutlet weak var tableViewLabel: UITableView!
@@ -31,7 +32,30 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableViewLabel.separatorInset = UIEdgeInsets(top: 50, left: 0, bottom: 50, right: 0)
         tableViewLabel.estimatedRowHeight = 200
         tableViewLabel.rowHeight = UITableView.automaticDimension
+        
+        let defaults = UserDefaults.standard
+        if let data = defaults.data(forKey: key){
+            if let array = try? PropertyListDecoder().decode([ModelTask].self, from: data){
+                tasks = array
+            }
+        }else{
+            let tasks = [ModelTask]()
+        }
     }
+    
+  
+    @IBAction func checkMarkAction(_ sender: UIButton) {
+        tasks[sender.tag].isDone.toggle()
+        if tasks[sender.tag].isDone{
+            sender.setImage(UIImage(named: "buttonImage"), for: .normal)
+            if let data = try? PropertyListEncoder().encode(tasks){
+                UserDefaults.standard.set(data, forKey: key)
+            }
+        }else{
+            sender.setImage(UIImage(named: "checkMark"), for: .normal)
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.selectedIndex == indexPath.row && isCollapce == true{
@@ -56,6 +80,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.titleLabel.text = tasks[indexPath.row].titleTask
         cell.descriptionTextViewLabel.text = tasks[indexPath.row].descriptionTask
+        cell.checkMarkLabel.tag = indexPath.row
+        cell.checkMarkLabel.setImage(UIImage(named: tasks[indexPath.row].isDone ? "checkMark" : "buttonImage" ), for: .normal)
         cell.customDelegate = self
         cell.selectionStyle = .none
         cell.animate()
@@ -85,6 +111,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
             tableView.beginUpdates()
             tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            StorageManager.removeTasks(atIndex: indexPath.item)
             tableView.endUpdates()
         }
     }
@@ -101,8 +128,7 @@ extension MainScreen: NotesViewControllerDelegate{
     func completedCreateTask(data: ModelTask, isEdit: Bool) {
         if isEdit {    // если true, то редактируем задачу
             if let index = tasks.firstIndex(where: { $0.id == data.id }){
-                tasks.remove(at: index)
-                tasks.insert(data, at: 0)
+                tasks[index] = data
                 StorageManager.replaceTask(task: data)
             }
         } else {   // если false, то добавляем новую задачу
@@ -140,7 +166,7 @@ extension MainScreen{
                                                   
         detailCoffeeVC.preferredContentSize = CGSize(width: 0, height: 300)
         detailCoffeeVC.sheetPresentationController?.detents = [.custom(resolver: { _ in
-            return 578
+            return 570
         }),
             .custom(resolver: { context in
             context.maximumDetentValue * 2

@@ -40,7 +40,7 @@ class NotesViewController: UIViewController{
         titleTextField.layer.cornerRadius = 17
         titleTextField.autocapitalizationType = .words
         titleTextField.text = " Name..."
-        titleTextField.textColor = UIColor.systemGray5
+        titleTextField.textColor = #colorLiteral(red: 0.8472462893, green: 0.8472462893, blue: 0.8472462893, alpha: 1)
         titleTextField.font = .italicSystemFont(ofSize: 17)
         titleTextField.alpha = 0.75
         titleTextField.frame.origin = CGPoint(x: 3, y: (titleTextField.font?.pointSize)! / 2)
@@ -48,7 +48,7 @@ class NotesViewController: UIViewController{
         
         descriptionTextView.delegate = self
         descriptionTextView.text = "Description"
-        descriptionTextView.textColor = UIColor.systemGray5
+        descriptionTextView.textColor = #colorLiteral(red: 0.8472462893, green: 0.8472462893, blue: 0.8472462893, alpha: 1)
         descriptionTextView.font = .italicSystemFont(ofSize: 20)
         descriptionTextView.sizeToFit()
         descriptionTextView.alpha = 0.75
@@ -63,7 +63,6 @@ class NotesViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         descriptionTextView.contentInset = UIEdgeInsets.zero
     }
     
@@ -87,7 +86,6 @@ class NotesViewController: UIViewController{
     }
     
     func setDataIfNeeded(){
-        
         guard let editTask = editTask else {return}
         titleTextField.text = editTask.titleTask
         descriptionTextView.text = editTask.descriptionTask
@@ -97,7 +95,6 @@ class NotesViewController: UIViewController{
 extension NotesViewController: UITextFieldDelegate{
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         titleTextField.becomeFirstResponder()
         
         if titleTextField.text == " Name..."{
@@ -107,7 +104,6 @@ extension NotesViewController: UITextFieldDelegate{
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
         if titleTextField.text == "" {
             titleTextField.alpha = 0.75
             titleTextField.text = " Name..."
@@ -144,7 +140,6 @@ extension NotesViewController: UITextViewDelegate{
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        
         if descriptionTextView.text == "Description"{
             descriptionTextView.text = ""
             descriptionTextView.alpha = 0.75
@@ -152,7 +147,6 @@ extension NotesViewController: UITextViewDelegate{
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        
         if descriptionTextView.text == ""{
             descriptionTextView.alpha = 0.75
             descriptionTextView.text = "Description"
@@ -160,14 +154,12 @@ extension NotesViewController: UITextViewDelegate{
     }
     
     @objc func keyboardWillShow(_ notification: Notification){
-        
         guard let keyboardSize = (notification.userInfo? [UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size else {return}  // Получаем размер клавиатуры
         
         descriptionTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)   // Устанавливаем отступы для текстового поля, чтобы оно не                                                                                                                                     перекрывалось клавиатурой
     }
     
     @objc func keyboardWillHide(_ notification: Notification){
-        
         descriptionTextView.contentInset = UIEdgeInsets.zero
     }
 }
