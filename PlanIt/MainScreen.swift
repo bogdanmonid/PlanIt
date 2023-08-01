@@ -14,7 +14,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var selectedIndex = -1
     var isCollapce = false
     var key: String = "key"
-   
+    private var editTask: ModelTask?
    
     @IBOutlet weak var tableViewLabel: UITableView!
     @IBOutlet weak var coffeeButton: UIButton!
@@ -23,9 +23,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        haveANiceDay.isHidden = false
-        
-        view.backgroundColor = UIColor(named: "28313A")
+        //view.backgroundColor = UIColor(named: "28313A")
         
         coffeeButton.addTarget(self, action: #selector(presentCoffeeControl), for: .touchUpInside)
         
@@ -33,16 +31,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableViewLabel.estimatedRowHeight = 200
         tableViewLabel.rowHeight = UITableView.automaticDimension
         
-        let defaults = UserDefaults.standard
-        if let data = defaults.data(forKey: key){
-            if let array = try? PropertyListDecoder().decode([ModelTask].self, from: data){
-                tasks = array
-            }
-        }else{
-            let tasks = [ModelTask]()
-        }
+      
     }
-    
   
     @IBAction func checkMarkAction(_ sender: UIButton) {
         tasks[sender.tag].isDone.toggle()
@@ -53,9 +43,11 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }else{
             sender.setImage(UIImage(named: "checkMark"), for: .normal)
+            if let data = try? PropertyListEncoder().encode(tasks){
+                UserDefaults.standard.set(data, forKey: key)
+            }
         }
     }
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.selectedIndex == indexPath.row && isCollapce == true{
@@ -70,9 +62,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
             return tasks.count
-     
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,7 +101,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
             tableView.beginUpdates()
             tasks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-            StorageManager.removeTasks(atIndex: indexPath.item)
             tableView.endUpdates()
         }
     }
@@ -174,7 +163,7 @@ extension MainScreen{
         ]
         detailCoffeeVC.sheetPresentationController?.prefersGrabberVisible = false
         present(detailCoffeeVC, animated: true)
-        haveANiceDay.isHidden = true
+        
     }
     
     @objc func cancelButton(){

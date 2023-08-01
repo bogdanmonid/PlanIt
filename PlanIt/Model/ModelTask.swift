@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ModelTask: Codable, Equatable{
+struct ModelTask: Codable{
     
     var id: Double
     var titleTask: String
