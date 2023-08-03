@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol CoffeeViewControllerDelegate: AnyObject{
+    func hideLabel()
+    func showLabel()
+}
+
 class CoffeeViewController: UIViewController {
     
+    weak var delegate: CoffeeViewControllerDelegate?
     private let cancelButton = UIButton()
     private let coffeeTitle = UILabel()
     private let coffeeTitleView = UIView()
@@ -52,6 +58,16 @@ class CoffeeViewController: UIViewController {
         savingSelectedCups()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        delegate?.hideLabel()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.showLabel()
+    }
+   
     func savingSelectedCups(){
         if let saveChoiceCount = StorageManager.loadCup(){
             selectedCount = saveChoiceCount
@@ -160,6 +176,7 @@ class CoffeeViewController: UIViewController {
     
     @objc func cancel(){
         dismiss(animated: true)
+        
     }
 }
 

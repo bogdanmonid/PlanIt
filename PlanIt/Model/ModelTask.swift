@@ -14,4 +14,5 @@ struct ModelTask: Codable{
     var titleTask: String
     var descriptionTask: String
     var isDone: Bool = false
+    var date: Double
 }

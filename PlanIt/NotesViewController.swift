@@ -73,9 +73,10 @@ class NotesViewController: UIViewController{
     }
     
     @IBAction func saveAction(_ sender: Any) {
+        let dateInDouble = Date().timeIntervalSince1970
         
         if let textName = titleTextField.text, let textDescription = descriptionTextView.text{
-            let task = ModelTask(id: editTask == nil ? Date.timeIntervalSinceReferenceDate : editTask!.id, titleTask: textName, descriptionTask: textDescription) // создаем                                                                                                                 нужную задачу, id присваеваем только тогда, когда уже                                                                                          есть задача. let task - создание новой модели нашей задачи. если true, то                                                                                                                  присваеваем первое после(сохранение новой задачи) ?,                                                                          если false(id не ниловый, то присваеваем id, который уже был в этой задаче), то второе
+            let task = ModelTask(id: editTask == nil ? Date.timeIntervalSinceReferenceDate : editTask!.id, titleTask: textName, descriptionTask: textDescription, date: dateInDouble)                                                                                                                                        // создаем                                                                                                               нужную задачу, id присваеваем только тогда, когда уже                                                                                          есть задача. let task - создание новой модели нашей задачи. если true, то                                                                                                                  присваеваем первое после(сохранение новой задачи),                                                                            если false(id не ниловый, то присваеваем id, который уже был в этой задаче), то второе
             delegate?.completedCreateTask(data: task, isEdit: isEdit)
             dismiss(animated: true)
         }

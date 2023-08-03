@@ -10,6 +10,7 @@ import UIKit
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let coffeeVC = CoffeeViewController()
     var tasks = StorageManager.getTasks()
     var selectedIndex = -1
     var isCollapce = false
@@ -30,23 +31,16 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableViewLabel.separatorInset = UIEdgeInsets(top: 50, left: 0, bottom: 50, right: 0)
         tableViewLabel.estimatedRowHeight = 200
         tableViewLabel.rowHeight = UITableView.automaticDimension
-        
-      
     }
-  
+    
     @IBAction func checkMarkAction(_ sender: UIButton) {
         tasks[sender.tag].isDone.toggle()
         if tasks[sender.tag].isDone{
-            sender.setImage(UIImage(named: "buttonImage"), for: .normal)
-            if let data = try? PropertyListEncoder().encode(tasks){
-                UserDefaults.standard.set(data, forKey: key)
-            }
-        }else{
             sender.setImage(UIImage(named: "checkMark"), for: .normal)
-            if let data = try? PropertyListEncoder().encode(tasks){
-                UserDefaults.standard.set(data, forKey: key)
-            }
+        }else{
+            sender.setImage(UIImage(named: "buttonImage"), for: .normal)
         }
+        StorageManager.updateAlreadySavedTask(task: tasks[sender.tag])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -66,7 +60,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      //  tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.titleLabel.text = tasks[indexPath.row].titleTask
         cell.descriptionTextViewLabel.text = tasks[indexPath.row].descriptionTask
@@ -75,14 +68,12 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.customDelegate = self
         cell.selectionStyle = .none
         cell.animate()
-       // cell.descriptionLabel.isHidden = true
-        
-        
+       
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)         //Этот код используется для снятия выделения с ячейки таблицы.
         if selectedIndex == indexPath.row{
             if self.isCollapce == false{
                 self.isCollapce = true
@@ -93,13 +84,14 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.isCollapce = true
             }
             self.selectedIndex = indexPath.row
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic) //Этот метод используется для перезагрузки определенной строки таблицы с анимацией.
         }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             tableView.beginUpdates()
-            tasks.remove(at: indexPath.row)
+            let removeTask = tasks.remove(at: indexPath.row)
+            StorageManager.removeTask(task: removeTask)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }
@@ -118,10 +110,11 @@ extension MainScreen: NotesViewControllerDelegate{
         if isEdit {    // если true, то редактируем задачу
             if let index = tasks.firstIndex(where: { $0.id == data.id }){
                 tasks[index] = data
-                StorageManager.replaceTask(task: data)
+                StorageManager.updateAlreadySavedTask(task: data)
             }
         } else {   // если false, то добавляем новую задачу
             tasks.insert(data, at: 0)
+          
             save(data: data)
         }
         tableViewLabel.reloadData()
@@ -145,13 +138,16 @@ extension MainScreen: CustomTableViewCellDelegate{ // тут происходи�
     }
 }
 
-extension MainScreen{
+extension MainScreen: CoffeeViewControllerDelegate{
+    
     @objc func presentCoffeeControl(){
         let detailCoffeeVC = CoffeeViewController()
+        detailCoffeeVC.delegate = self
         
         detailCoffeeVC.isModalInPresentation = true
        
         detailCoffeeVC.modalPresentationStyle = .automatic
+        detailCoffeeVC.modalTransitionStyle = .crossDissolve
                                                   
         detailCoffeeVC.preferredContentSize = CGSize(width: 0, height: 300)
         detailCoffeeVC.sheetPresentationController?.detents = [.custom(resolver: { _ in
@@ -163,11 +159,20 @@ extension MainScreen{
         ]
         detailCoffeeVC.sheetPresentationController?.prefersGrabberVisible = false
         present(detailCoffeeVC, animated: true)
+        haveANiceDay.isHidden = false
         
     }
     
     @objc func cancelButton(){
         dismiss(animated: true)
+    }
+    
+    func hideLabel() {
+        haveANiceDay.isHidden = true
+    }
+    
+    func showLabel() {
+        haveANiceDay.isHidden = false
     }
 }
 

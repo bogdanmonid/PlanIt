@@ -20,10 +20,10 @@ class StorageManager{
         
         if let data = UserDefaults.standard.value(forKey: shared.taskKey) as? Data,
            let tasks = try? JSONDecoder().decode([ModelTask].self, from: data){
-            return tasks
+            return tasks.sorted(by: {Date(timeIntervalSince1970: $0.date) > Date(timeIntervalSince1970: $1.date)})
         } else {
             let tasks = [ModelTask]()
-            return tasks
+            return tasks.sorted(by: {Date(timeIntervalSince1970: $0.date) > Date(timeIntervalSince1970: $1.date)})
         }
     }
     
@@ -41,13 +41,14 @@ class StorageManager{
         return findTask // опционалная, т.к объекта может и не быть и вернется nil
     }
     
-    static func replaceTask(task: ModelTask){   // принимаем и подменяем задачу
+    static func updateAlreadySavedTask(task: ModelTask){   // принимаем и подменяем задачу
         var tasks = getTasks()
         
         // let findTask = tasks.first { $0.id == task.id} // так же находим задачу, только параметр пойска уже id
         let taskIndex = tasks.firstIndex(where: { $0.id == task.id }) // получаем индекс задачи, которую отредактировали
-        tasks[taskIndex!].titleTask = task.titleTask  // перезаписываем задачу. [taskIndex!] ведет к задаче, которую отредактировали. заменяем старые данные на новые
+        tasks[taskIndex!].titleTask = task.titleTask  // перезаписываем свойство задачи. [taskIndex!] ведет к задаче, которую отредактировали. заменяем старые данные на новые
         tasks[taskIndex!].descriptionTask = task.descriptionTask
+        tasks[taskIndex!].isDone = task.isDone
         UserDefaults.standard.setValue(try? JSONEncoder().encode(tasks), forKey: shared.taskKey) //кодируем данные и сохраняем
     }
     
